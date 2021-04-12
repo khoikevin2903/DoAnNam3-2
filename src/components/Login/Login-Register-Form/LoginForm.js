@@ -43,7 +43,7 @@ function LoginForm(props) {
                     login.password === "04012000"
                 ) {
                     setCheck(true);
-                    dispatch(onLogin({user: login.email})); 
+                    dispatch(onLogin(login.email));
                     //history.push('/');
                 } else if (login.email === "khoikevin2903@gmail.com" &&
                     login.password !== "04012000") {

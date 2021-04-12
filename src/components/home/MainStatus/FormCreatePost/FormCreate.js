@@ -1,16 +1,25 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { offModal } from '../../../../reducers/showModal';
-import * as Info from '../../../../constants/Address';
-import Form from './../../../FormInfo/Form';
-
-const city = JSON.parse(localStorage.getItem('dbPlace')).map(state => state.name);
+import FormStartPlace from '../../../FormInfoPlace/FormStartPlace';
+import FormEndPlace from '../../../FormInfoPlace/FormEndPlace';
+import FormStartTime from '../../../FormInfoPlace/FormStartTime';
+import * as Time from '../../../../constants/Address';
 
 function FormCreate(props) {
 
-    console.log(city)
-
     const dispatch = useDispatch();
+
+    const Place = useSelector(state => state.Place);
+
+    const InfoPlace = useSelector(state => state.InfoPlace);
+
+    const InfoPlaceName = useSelector(state => state.InfoPlaceName);
+
+    const districtStart = useSelector(state => state.DisTrictsStart);
+
+    const districtEnd = useSelector(state => state.DisTrictsEnd);
+
     return (
         <div className="flex justify-center px-3 ml-6 ">
             <div className=" w-2/3">
@@ -37,41 +46,42 @@ function FormCreate(props) {
                                     <p >Start Place : </p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={city} name="city" width="w-52" />
+                                    <FormStartPlace array={Place.map(rs => rs.name)} name="startCity" width="w-52" type="Tỉnh/Thành Phố" />
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={city} name="From" width="w-52" />
+                                    <FormStartPlace array={InfoPlace.startCity !== null ? districtStart.map(rs => rs.name) : null} name="startDistrict" width="w-52" type="Quận/Huyện" />
                                 </div>
                                 <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
-                                    <i className="fas fa-plane-arrival text-blue-400 mr-4"></i>
+                                    <i className="fas fa-plane-departure text-blue-400 mr-4"></i>
                                     <p >End Place : </p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={city} name="From" width="w-52" />
+                                    <FormEndPlace array={Place.map(rs => rs.name)} name="endCity" width="w-52" type="Tỉnh/Thành Phố" />
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={city} name="From" width="w-52" />
+                                    <FormEndPlace array={InfoPlace.endCity !== null ? districtEnd.map(rs => rs.name) : null} name="endDistrict" width="w-52" type="Quận/Huyện" />
                                 </div>
-                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
+                                {/* <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
                                     <i className="fas fa-hourglass-start text-blue-400 mr-4"></i>
                                     <p >Start Time : </p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Info.THANHPHO} name="From" width="w-52" />
+                                    <FormStartTime array={Time.Hours} name="startTime" width="w-52" type="Hours"/>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Info.THANHPHO} name="From" width="w-52" />
-                                </div>
+                                    <FormStartTime array={Time.Minute} name="minuteTime" width="w-52" type="Minute"/>
+                                </div> */}
+                                 {/* 
                                 <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
                                 <i className="fas fa-hourglass-end text-blue-400 mr-4"></i>
                                     <p >End Time : </p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Info.THANHPHO} name="From" width="w-52" />
+                                    <Form array={Time.Hours} name="From" width="w-52" />
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Info.THANHPHO} name="From" width="w-52" />
-                                </div>
+                                    <Form array={Time.Hours} name="From" width="w-52" />
+                                </div> */}
 
                             </div>
                             <div className="py-3 px-2">
