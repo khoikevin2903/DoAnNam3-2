@@ -9,7 +9,14 @@ function BgLogin(props) {
     
     return (
         <div className="w-1/2 h-screen relative">
-            <div className="bg-loginImage w-full h-screen bg-no-repeat bg-cover">
+            <div className={ClassNames(" w-full h-screen bg-no-repeat bg-cover",
+                {
+                    "bg-registerImage" : active === 1
+                },
+                {
+                    "bg-loginImage" : active === 0
+                }
+        )}>
             </div>
             <div className="h-full w-full bg-black opacity-50 flex absolute top-0 left-0 z-40 flex justify-center items-center">
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import CreatePost from './CreatePost/CreatePost';
+import Newsfeed from './Newsfeed/Newsfeed';
 import Stories from './Stories';
 
 function MainStatus(props) {
@@ -9,8 +10,8 @@ function MainStatus(props) {
                 <div className="w-full bg-white text-xl rounded-md">
                     <CreatePost />
                 </div>
-                <div>
-
+                <div className="w-full">
+                    <Newsfeed />
                 </div>
 
             </div>

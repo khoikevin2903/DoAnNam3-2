@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ChangePlace } from '../../reducers/infoPlace';
 import { ChangePlaceName } from '../../reducers/infoPlaceName';
 
-function Form(props) {
+function FormStartTime(props) {
 
 	const dispatch = useDispatch()
 
@@ -47,4 +47,4 @@ function Form(props) {
 	);
 }
 
-export default Form;
+export default FormStartTime;

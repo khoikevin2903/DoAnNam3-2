@@ -10,7 +10,7 @@ function Stories(props) {
                         <p className="text-xl opacity-40">+</p>
                     </div>
                     <div className="ml-4">
-                        <h2 className="opacity-80 font-medium">Creat Your Story</h2>
+                        <h2 className="opacity-80 font-medium">Create Your Story</h2>
                         <p className="text-sm opacity-40">time to story</p>
                     </div>
                 </div>

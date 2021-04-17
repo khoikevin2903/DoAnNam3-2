@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { offModal } from '../../../../reducers/showModal';
 import FormStartPlace from '../../../FormInfoPlace/FormStartPlace';
 import FormEndPlace from '../../../FormInfoPlace/FormEndPlace';
-import FormStartTime from '../../../FormInfoPlace/FormStartTime';
+import FormTime from '../../../FormInfoPlace/FormTime';
 import * as Time from '../../../../constants/Address';
 
 function FormCreate(props) {
 
     const dispatch = useDispatch();
+
+    const [date, setDate] = useState(new Date());
 
     const Place = useSelector(state => state.Place);
 
@@ -61,26 +63,29 @@ function FormCreate(props) {
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
                                     <FormEndPlace array={InfoPlace.endCity !== null ? districtEnd.map(rs => rs.name) : null} name="endDistrict" width="w-52" type="Quận/Huyện" />
                                 </div>
-                                {/* <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
+                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
                                     <i className="fas fa-hourglass-start text-blue-400 mr-4"></i>
                                     <p >Start Time : </p>
                                 </div>
-                                <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <FormStartTime array={Time.Hours} name="startTime" width="w-52" type="Hours"/>
+                                {/* <div className="max-w-xs mt-12 mx-auto">
+                                    <DatePicker date={date} onChange={setDate}></DatePicker>
+                                </div> */}
+
+                                {/* <div className="flex items-center shadow-md px-2 py-2 rounded-md">
+                                    <FormTime array={Time.Hours} name="startHours" width="w-52" type="Hours"/>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <FormStartTime array={Time.Minute} name="minuteTime" width="w-52" type="Minute"/>
-                                </div> */}
-                                 {/* 
+                                    <FormTime array={Time.Minute} name="startMinute" width="w-52" type="Minute"/>
+                                </div> 
                                 <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
                                 <i className="fas fa-hourglass-end text-blue-400 mr-4"></i>
                                     <p >End Time : </p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Time.Hours} name="From" width="w-52" />
+                                    <FormTime array={Time.Hours} name="endHours" width="w-52" type="Hours"/>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
-                                    <Form array={Time.Hours} name="From" width="w-52" />
+                                    <FormTime array={Time.Hours} name="endMinute" width="w-52" type="Minute"/>
                                 </div> */}
 
                             </div>

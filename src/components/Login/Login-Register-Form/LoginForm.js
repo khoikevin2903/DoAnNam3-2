@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import * as Mess from "./../../../constants/Message";
 import { onLogin } from './../../../reducers/checkLogin';
 import { useDispatch, useSelector } from "react-redux";
+import CallApi from '../../../util/callApi';
 
 function LoginForm(props) {
     const history = useHistory();
@@ -11,7 +12,7 @@ function LoginForm(props) {
     const checkLogin = useSelector(state => state.CheckLogin);
 
     const [login, setLogin] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 
@@ -36,27 +37,37 @@ function LoginForm(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (login.email !== "" && login.password !== "") {
-            if (login.email.search("@gmail.com") !== -1) {
-                if (
-                    login.email === "khoikevin2903@gmail.com" &&
-                    login.password === "04012000"
-                ) {
+        if (login.username !== "" && login.password !== "") {
+            CallApi('api/auth/signin', 'POST',{'username': login.username, 'password': login.password})
+            .then(res => {
+                if(res.status===200){
                     setCheck(true);
-                    dispatch(onLogin(login.email));
-                    //history.push('/');
-                } else if (login.email === "khoikevin2903@gmail.com" &&
-                    login.password !== "04012000") {
-                    setMess(Mess.LOGIN_FAIL_PASS);
-                    setCheck(false);
+                    dispatch(onLogin(res.data.accessToken));
                 } else {
-                    setMess(Mess.LOGIN_FAIL_USER);
+                    setMess(Mess.LOGIN_FAIL_INFO);
                     setCheck(false);
                 }
-            } else {
-                setMess(Mess.LOGIN_FAIL_EMAIL);
-                setCheck(false);
-            }
+            });
+            // if (login.email.search("@gmail.com") !== -1) {
+            //     if (
+            //         login.email === "khoikevin2903@gmail.com" &&
+            //         login.password === "04012000"
+            //     ) {
+            //         setCheck(true);
+            //         dispatch(onLogin(login.email));
+            //         //history.push('/');
+            //     } else if (login.email === "khoikevin2903@gmail.com" &&
+            //         login.password !== "04012000") {
+            //         setMess(Mess.LOGIN_FAIL_PASS);
+            //         setCheck(false);
+            //     } else {
+            //         setMess(Mess.LOGIN_FAIL_USER);
+            //         setCheck(false);
+            //     }
+            // } else {
+            //     setMess(Mess.LOGIN_FAIL_EMAIL);
+            //     setCheck(false);
+            // }
         } else if (login.email !== "" && login.password === "") {
             setMess(Mess.LOGIN_FAIL_PASS_NULL);
             setCheck(false);
@@ -83,13 +94,13 @@ function LoginForm(props) {
                     <div className="animate-fade-in-up-0 border-b border-gray-200 flex items-center justify-between rounded py-1 input">
                         <input
                             type="text"
-                            placeholder="Email Address"
+                            placeholder="Username"
                             className="pl-2 w-full mr-2 py-1"
-                            name="email"
-                            value={login.email}
+                            name="username"
+                            value={login.username}
                             onChange={handleChangeLogin}
                         />
-                        <i className="far fa-envelope opacity-50 mr-2"></i>
+                        <i className="fas fa-user opacity-50 mr-2"></i>
                     </div>
                     <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 mt-4 input">
                         <input
