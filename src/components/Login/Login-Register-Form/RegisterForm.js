@@ -1,7 +1,99 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './login-register.scss';
+import CallApi from '../../../util/callApi';
+import * as Mess from "./../../../constants/Message";
+import { useHistory } from 'react-router';
 
-function registerForm(props) {
+function RegisterForm(props) {
+
+    const history = useHistory();
+
+    const [mess, setMess] = useState(Mess.LOGIN_FAIL_INFO);
+
+    const [check, setCheck] = useState(true);
+
+    const [account, setAccount] = useState({
+        name: "",
+        username: "",
+        email: "",
+        password: ""
+    });
+
+    const [loading, setLoading] = useState(false);
+
+    const HandleChange = (e) => {
+        var target = e.target;
+        var name = target.name;
+        var value = target.value;
+        setAccount({
+            ...account, [name]: value
+        })
+    }
+
+    const CheckSignUp = () => {
+        if (account.email.search("@gmail.com") === -1 || account.email === "") {
+            setCheck(false);
+            setLoading(false);
+            setMess(Mess.SIGNUP_FAIL_EMAIL);
+        }
+        if (account.name === "") {
+            setCheck(false);
+            setLoading(false);
+            setMess(Mess.SIGNUP_FAIL_NAME);
+        }
+        if (account.username === "" || account.username.length < 8) {
+            setCheck(false);
+            setLoading(false);
+            setMess(Mess.SIGNUP_FAIL_USER);
+        }
+        if (account.password === "" || account.username.length < 8) {
+            setCheck(false);
+            setLoading(false);
+            setMess(Mess.SIGNUP_FAIL_PASS);
+        }
+    }
+
+    const HandleSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        CheckSignUp();
+        if (check) {
+            CallApi('api/auth/signin', 'POST', {
+                'username': account.username,
+                'password': account.password,
+                'name': account.name,
+                'email': account.email
+            })
+                .then(res => {
+                    if (res.status === 200) {
+                        setCheck(true);
+                        setLoading(false);
+                        alert('Account registration is successful');
+                        setAccount({
+                            name: "",
+                            username: "",
+                            email: "",
+                            password: ""
+                        })
+                        history.push('/login');
+                    } else {
+                        setMess(res.data.message);
+                        setCheck(false);
+                        setLoading(false);
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    setCheck(false);
+                    setLoading(false);
+                    setMess(Mess.SIGNUP_FAIL_USER);
+                });
+        } else {
+            setCheck(false);
+            setLoading(false);
+            setMess(Mess.SIGNUP_FAIL_USER);
+        }
+    }
     return (
         <div className="flex items-center justify-center w-1/2">
             <div className="w-7/12">
@@ -12,20 +104,37 @@ function registerForm(props) {
                 </div>
                 <form action="" method="post" className="pl-3 mt-14">
                     <div className="animate-fade-in-up-0 border-b border-gray-200 flex items-center justify-between rounded py-1 input">
-                        <input type="text" placeholder="Name" className="pl-2 w-full mr-2 py-1" name="name" />
-                        <i className="far fa-user opacity-50 mr-2"></i>
+                        <input type="text" placeholder="Name" value={account.name} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="name" />
+                        <i className="fas fa-signature opacity-50 mr-1"></i>
                     </div>
                     <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 input mt-4">
-                        <input type="text" placeholder="Email Address" className="pl-2 w-full mr-2 py-1" name="email" />
+                        <input type="text" placeholder="Email Address" value={account.email} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="email" />
                         <i className="far fa-envelope opacity-50 mr-2"></i>
                     </div>
+                    <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 input mt-4">
+                        <input type="text" placeholder="Username" value={account.username} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="username" />
+                        <i className="far fa-user opacity-50 mr-2"></i>
+                    </div>
                     <div className="animate-fade-in-up-2 border-b border-gray-200 flex items-center justify-between rounded py-1 mt-4 input">
-                        <input type="text" placeholder="Password" className="pl-2 w-full mr-2 py-1" name="password" />
+                        <input type="password" placeholder="Password" value={account.password} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="password" />
                         <i className="fas fa-lock opacity-50 mr-2"></i>
                     </div>
-                    <div className="animate-fade-in-up-3 flex items-center justify-between mt-8">
-                        <input type="button" value="Register" className="cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700" />
-                    </div>
+                    {!check && (
+                        <p className="text-sm text-red-600 ml-1 mt-2 italic">{mess}</p>
+                    )}
+                    <button
+                        type="submit"
+                        onClick={HandleSubmit}
+                        className="duration-300 animate-fade-in-up-3 text-xl flex items-center cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700 mt-8"
+                    >
+                        <span>Registe</span>
+                        {loading && (
+                            <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
+                        )}
+                    </button>
+                    {/* <div className="animate-fade-in-up-3 flex items-center justify-between mt-8">
+                        <input type="submit" onClick={HandleSubmit} value="Register" className="cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700" />
+                    </div> */}
                     <div className="mt-10 flex items-center justify-center">
                         <div className="cursor-pointer animate-fade-in-up-icon-1 mx-1 border border-blue-800 p-3 rounded-full bg-blue-800 h-10 w-10 flex items-center justify-center text-white hover:bg-white hover:text-blue-800 transition duration-500">
                             <i className="fab fa-facebook-f"></i>
@@ -49,4 +158,4 @@ function registerForm(props) {
     );
 }
 
-export default registerForm;
+export default RegisterForm;

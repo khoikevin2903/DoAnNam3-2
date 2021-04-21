@@ -9,6 +9,7 @@ import {defaultDistrictsEnd} from './reducers/districtsEnd';
 import {defaultPlace} from './reducers/infoPlace';
 import {defaultPlaceName} from './reducers/infoPlaceName';
 import {offModal} from './reducers/showModal';
+import {onLogin} from './reducers/login-register';
 
 function App(props) {
 
@@ -21,6 +22,7 @@ function App(props) {
 		dispatch(defaultDistrictsEnd());
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
+		dispatch(onLogin());
 	})
 
 	async function FetchData() {

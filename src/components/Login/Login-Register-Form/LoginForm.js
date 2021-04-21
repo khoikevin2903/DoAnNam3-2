@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import CallApi from '../../../util/callApi';
 
 function LoginForm(props) {
+
     const history = useHistory();
+
     const dispatch = useDispatch();
+
     const checkLogin = useSelector(state => state.CheckLogin);
 
     const [login, setLogin] = useState({
@@ -17,7 +20,10 @@ function LoginForm(props) {
     });
 
     const [mess, setMess] = useState(Mess.LOGIN_FAIL_INFO);
+
     const [check, setCheck] = useState(true);
+
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (checkLogin.isAuth) {
@@ -36,47 +42,37 @@ function LoginForm(props) {
     };
 
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault();
         if (login.username !== "" && login.password !== "") {
             CallApi('api/auth/signin', 'POST',{'username': login.username, 'password': login.password})
             .then(res => {
                 if(res.status===200){
                     setCheck(true);
+                    setLoading(false);
                     dispatch(onLogin(res.data.accessToken));
                 } else {
                     setMess(Mess.LOGIN_FAIL_INFO);
                     setCheck(false);
                 }
+            })
+            .catch(err => {
+                setCheck(false);
+                setLoading(false);
+                setMess(Mess.LOGIN_FAIL_USER);
             });
-            // if (login.email.search("@gmail.com") !== -1) {
-            //     if (
-            //         login.email === "khoikevin2903@gmail.com" &&
-            //         login.password === "04012000"
-            //     ) {
-            //         setCheck(true);
-            //         dispatch(onLogin(login.email));
-            //         //history.push('/');
-            //     } else if (login.email === "khoikevin2903@gmail.com" &&
-            //         login.password !== "04012000") {
-            //         setMess(Mess.LOGIN_FAIL_PASS);
-            //         setCheck(false);
-            //     } else {
-            //         setMess(Mess.LOGIN_FAIL_USER);
-            //         setCheck(false);
-            //     }
-            // } else {
-            //     setMess(Mess.LOGIN_FAIL_EMAIL);
-            //     setCheck(false);
-            // }
-        } else if (login.email !== "" && login.password === "") {
+        } else if (login.username !== "" && login.password === "") {
             setMess(Mess.LOGIN_FAIL_PASS_NULL);
             setCheck(false);
-        } else if (login.email === "" && login.password !== "") {
+            setLoading(false);
+        } else if (login.username === "" && login.password !== "") {
             setMess(Mess.LOGIN_FAIL_EMAIL_NULL);
             setCheck(false);
+            setLoading(false);
         } else {
             setMess(Mess.LOGIN_FAIL_INFO);
             setCheck(false);
+            setLoading(false);
         }
     };
 
@@ -88,7 +84,7 @@ function LoginForm(props) {
                     <h1 className="text-3xl font-semibold mb-1">Log In</h1>
                     <p className="opacity-50 font-medium">
                         Log in to continue in our website
-          </p>
+                    </p>
                 </div>
                 <form action="" method="post" className="pl-3 mt-14">
                     <div className="animate-fade-in-up-0 border-b border-gray-200 flex items-center justify-between rounded py-1 input">
@@ -117,15 +113,19 @@ function LoginForm(props) {
                         <p className="text-sm text-red-600 ml-1 mt-2 italic">{mess}</p>
                     )}
                     <div className="animate-fade-in-up-2 flex items-center justify-between mt-6">
-                        <input
+                        <button
                             type="submit"
-                            value="Log In"
                             onClick={handleSubmit}
-                            className="cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700"
-                        />
+                            className="duration-300 text-xl flex items-center cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700"
+                        > 
+                            <span>Log in</span>
+                            {loading && (
+                            <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
+                            )}
+                        </button> 
                         <p className="font-medium opacity-40 cursor-pointer hover:opacity-90 transition duration-700">
                             Forgot Password
-            </p>
+                        </p>
                     </div>
                     <div className="mt-10 flex items-center justify-center">
                         <div className="cursor-pointer animate-fade-in-up-icon-1 mx-1 border border-blue-800 p-3 rounded-full bg-blue-800 h-10 w-10 flex items-center justify-center text-white hover:bg-white hover:text-blue-800 transition duration-500">
