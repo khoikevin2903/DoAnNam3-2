@@ -14,6 +14,8 @@ import InfoPlaceName from './../reducers/infoPlaceName';
 import Place from './../reducers/place';
 import DisTrictsStart from './../reducers/districtsStart';
 import DisTrictsEnd from './../reducers/districtsEnd';
+import thunk from "redux-thunk"
+import {applyMiddleware} from 'redux'
 
 
 const rootReducer = combineReducers({
@@ -34,10 +36,12 @@ const persistConfig = {
     storage
 }
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default () => {
-    let store = createStore(persistedReducer)
+    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)))
     let persistor = persistStore(store)
     return {store, persistor}
 }

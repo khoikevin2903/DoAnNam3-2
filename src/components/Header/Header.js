@@ -34,7 +34,7 @@ function Header(props) {
 					/>
 					<i className="fas fa-search text-blue-300"></i>
 				</div>
-				<div className="flex items-center ">
+				<div className="flex items-center w3-animate-right">
 					<ul className="flex items-center">
 						<li className="bg-avataImage h-12 w-12 bg-cover rounded-full cursor-pointer"></li>
 						<li className="mx-4 cursor-pointer">Khoi Kevin</li>

@@ -7,10 +7,10 @@ const infoPlace = createSlice({
         startDistrict: null,
         endCity : null,
         endDistrict: null,
-        startHours: null,
-        startMinute: null,
-        endHours : null,
-        endMinute : null
+        startTime: null,
+        startCalendar: null,
+        endTime: null,
+        endCalendar: null,
     },
     reducers: {
         ChangePlace: (state, action) => {
@@ -22,10 +22,10 @@ const infoPlace = createSlice({
                 startDistrict: null,
                 endCity : null,
                 endDistrict: null,
-                startHours: null,
-                startMinute: null,
-                endHours : null,
-                endMinute : null
+                startTime: null,
+                startCalendar: null,
+                endTime: null,
+                endCalendar: null,
             }
         }
     }

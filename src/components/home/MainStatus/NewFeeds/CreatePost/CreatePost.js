@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { onModal } from '../../../../reducers/showModal';
+import { onModal } from '../../../../../reducers/showModal';
 
 function CreatePost(props) {
 

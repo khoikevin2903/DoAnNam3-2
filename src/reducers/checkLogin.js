@@ -8,7 +8,6 @@ const login = createSlice({
     },
     reducers: {
         onLogin: (state, action) => {
-            console.log(action.payload);
             return {...state, isAuth: true, token: action.payload};
         },
         onLogout: (state, action) => {

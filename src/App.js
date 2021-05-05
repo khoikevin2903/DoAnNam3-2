@@ -10,6 +10,7 @@ import {defaultPlace} from './reducers/infoPlace';
 import {defaultPlaceName} from './reducers/infoPlaceName';
 import {offModal} from './reducers/showModal';
 import {onLogin} from './reducers/login-register';
+//import {changeOption} from './reducers/optionShow';
 
 function App(props) {
 
@@ -23,6 +24,7 @@ function App(props) {
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
 		dispatch(onLogin());
+		//dispatch(changeOption(0));
 	})
 
 	async function FetchData() {

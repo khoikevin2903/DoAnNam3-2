@@ -1,7 +1,6 @@
 import React from 'react';
-import ava from 'C:/Users/ADMIN/Desktop/VSCode/DoAnNam3-1/now-fake/src/image/avata.jpg';
 
-function Newsfeed(props) {
+function Post(props) {
 
     const item = {
         IdTravelSchedule: 1,
@@ -21,7 +20,7 @@ function Newsfeed(props) {
     return (
         <div className="bg-white rounded-md mt-4 p-4">
             <div className="flex items-center">
-                {item.name !== "" && <img src={require('./../../../../image/avata.jpg').default} alt="" className="rounded-full h-16 w-16" />}
+                {item.name !== "" && <img src={require('../../../../../image/avata.jpg').default} alt="" className="rounded-full h-16 w-16" />}
                 <div className="ml-4 text-xl">
                     <h2 className="opacity-70">{item.name} <span className="text-sm opacity-60"> Add New Post</span></h2>
                     <p className="text-sm text-blue-300 font-thin">Just Now</p>
@@ -33,4 +32,4 @@ function Newsfeed(props) {
     );
 }
 
-export default Newsfeed;
+export default Post;

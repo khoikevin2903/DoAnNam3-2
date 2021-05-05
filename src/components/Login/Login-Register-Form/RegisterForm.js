@@ -58,7 +58,8 @@ function RegisterForm(props) {
         setLoading(true);
         CheckSignUp();
         if (check) {
-            CallApi('api/auth/signin', 'POST', {
+            const ac = new AbortController();
+            CallApi('api/auth/signup', 'POST', {
                 'username': account.username,
                 'password': account.password,
                 'name': account.name,
@@ -69,13 +70,13 @@ function RegisterForm(props) {
                         setCheck(true);
                         setLoading(false);
                         alert('Account registration is successful');
+                        history.push('/login');
                         setAccount({
                             name: "",
                             username: "",
                             email: "",
                             password: ""
-                        })
-                        history.push('/login');
+                        })   
                     } else {
                         setMess(res.data.message);
                         setCheck(false);
@@ -83,11 +84,11 @@ function RegisterForm(props) {
                     }
                 })
                 .catch(err => {
-                    console.log(err)
                     setCheck(false);
                     setLoading(false);
                     setMess(Mess.SIGNUP_FAIL_USER);
-                });
+                });  
+                return ac.abort();
         } else {
             setCheck(false);
             setLoading(false);

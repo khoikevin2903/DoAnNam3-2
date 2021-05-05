@@ -123,6 +123,8 @@ module.exports = {
 		    registerImage: "url('./image/signup.jpg')",
         logo: "url('./image/NOKE.png')",
         avataImage: "url('./image/avata.jpg')",
+        bgChat: "url('./image/bgChat.jpg')",
+        avataImage2: "url('./image/avata2.jpg')",
       }),
     },
   },

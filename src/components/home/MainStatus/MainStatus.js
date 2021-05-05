@@ -1,6 +1,6 @@
 import React from 'react';
-import CreatePost from './CreatePost/CreatePost';
-import Newsfeed from './Newsfeed/Newsfeed';
+import CreatePost from './NewFeeds/CreatePost/CreatePost';
+import Post from './NewFeeds/Post/Post';
 import Stories from './Stories';
 
 function MainStatus(props) {
@@ -11,7 +11,7 @@ function MainStatus(props) {
                     <CreatePost />
                 </div>
                 <div className="w-full">
-                    <Newsfeed />
+                    <Post />
                 </div>
 
             </div>
