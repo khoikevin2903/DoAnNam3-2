@@ -3,6 +3,7 @@ import Register from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import Error from "./pages/Error";
 
 const ROUTES = [
   {
@@ -30,6 +31,11 @@ const ROUTES = [
     exact: true,
     main: Register,
   },
+  {
+    path: "/error-404",
+    exact: true,
+    main: Error
+  }
 ];
 
 export default ROUTES;
