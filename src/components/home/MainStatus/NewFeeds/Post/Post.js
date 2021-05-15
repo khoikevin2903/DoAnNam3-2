@@ -1,6 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import * as Config from '../../../../../constants/Config';
+import { useSelector } from 'react-redux';
 
 function Post(props) {
+
+    const [listPost, setListPost] = useState();
+
+    const User = useSelector(user => user.CheckLogin);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios.get(`${Config.API_URL}/api/travel/all`, {
+                headers: {
+                    'Authorization': `Bearer ${User.current.accessToken}`
+                }
+            }).then(res => {
+                setListPost(res.data);
+            })
+        }
+        fetchData();
+    }, []);
+
+    console.log(listPost)
+
 
     const item = {
         IdTravelSchedule: 1,

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./login-register.scss";
 import { useHistory } from 'react-router-dom';
 import * as Mess from "./../../../constants/Message";
-import { onLogin } from './../../../reducers/checkLogin';
+import { onLogin, userLogin } from './../../../reducers/checkLogin';
 import { useDispatch, useSelector } from "react-redux";
-import CallApi from '../../../util/callApi';
+import { unwrapResult } from "@reduxjs/toolkit";
 
 function LoginForm(props) {
 
@@ -41,26 +41,25 @@ function LoginForm(props) {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
         if (login.username !== "" && login.password !== "") {
-            CallApi('api/auth/signin', 'POST',{'username': login.username, 'password': login.password})
-            .then(res => {
-                if(res.status===200){
+            try {
+                const actionResult = await dispatch(userLogin({ username: login.username, password: login.password }));
+                const currentUser = unwrapResult(actionResult);
+                if (currentUser.status === 200) {
                     setCheck(true);
                     setLoading(false);
-                    dispatch(onLogin(res.data.accessToken));
+                    dispatch(onLogin(currentUser.data));
                 } else {
                     setMess(Mess.LOGIN_FAIL_INFO);
                     setCheck(false);
                 }
-            })
-            .catch(err => {
-                setCheck(false);
-                setLoading(false);
-                setMess(Mess.LOGIN_FAIL_USER);
-            });
+            } catch (error) {
+                console.log(error);
+            }
+
         } else if (login.username !== "" && login.password === "") {
             setMess(Mess.LOGIN_FAIL_PASS_NULL);
             setCheck(false);
@@ -117,12 +116,12 @@ function LoginForm(props) {
                             type="submit"
                             onClick={handleSubmit}
                             className="duration-300 text-xl flex items-center cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700"
-                        > 
+                        >
                             <span>Log in</span>
                             {loading && (
-                            <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
+                                <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
                             )}
-                        </button> 
+                        </button>
                         <p className="font-medium opacity-40 cursor-pointer hover:opacity-90 transition duration-700">
                             Forgot Password
                         </p>

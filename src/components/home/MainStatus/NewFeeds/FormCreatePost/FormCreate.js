@@ -8,6 +8,8 @@ import FormTimePicker from './FormTimePicker copy';
 import moment from 'moment';
 import axios from 'axios';
 import * as Config from '../../../../../constants/Config';
+import {defaultPlace} from '../../../../../reducers/infoPlace';
+import {defaultPlaceName} from '../../../../../reducers/infoPlaceName';
 
 function FormCreate(props) {
 
@@ -37,9 +39,8 @@ function FormCreate(props) {
         e.preventDefault();
         if (InfoPlaceName.startCity !== null && InfoPlaceName.startDistrict !== null
             && InfoPlaceName.endCity !== null && InfoPlaceName.endDistrict !== null) {
-            console.log(User.token)
             axios.post(`${Config.API_URL}/api/travel/new`, {
-                creatorId: 1000,
+                creatorId: User.current.id,
                 description: content,
                 fromPlace: `${InfoPlaceName.startDistrict} - ${InfoPlaceName.startCity}`,
                 toPlace: `${InfoPlaceName.endDistrict} - ${InfoPlaceName.endCity}`,
@@ -49,10 +50,10 @@ function FormCreate(props) {
                     `${InfoPlaceName.endCalendar}${InfoPlaceName.endTime}` : `${moment(new Date()).format().substring(0, 11)}${moment(new Date()).format().substring(11, 19)}`
             }, {
                 headers: {
-                    'Authorization': `Bearer ${User.token}`
+                    'Authorization': `Bearer ${User.current.accessToken}`
                 }
             }).then(res => {
-                console.log(res)
+                console.log(res);
                 if (res.status === 200) {
                     setLoading(false);
                     dispatch(offModal());
@@ -77,7 +78,12 @@ function FormCreate(props) {
                         <div className="py-4 px-6 border-b flex items-center justify-between">
                             <h2 className="opacity-80 text-blue-500 text-2xl">Create Post</h2>
                             <div className="text-white bg-gray-400 h-8 w-10 flex justify-center items-center rounded-md cursor-pointer hover:bg-gray-500 duration-500"
-                                onClick={() => dispatch(offModal())}
+                                onClick={() => {
+                                    dispatch(offModal());
+                                    dispatch(defaultPlace());
+                                    dispatch(defaultPlaceName());
+
+                                }}
                             >
                                 <i className="fas fa-times"></i>
                             </div>

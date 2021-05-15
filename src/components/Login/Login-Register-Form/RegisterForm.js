@@ -3,8 +3,12 @@ import './login-register.scss';
 import CallApi from '../../../util/callApi';
 import * as Mess from "./../../../constants/Message";
 import { useHistory } from 'react-router';
+import {onLogin} from './../../../reducers/login-register';
+import { useDispatch } from 'react-redux';
 
 function RegisterForm(props) {
+
+    const dispatch = useDispatch();
 
     const history = useHistory();
 
@@ -67,9 +71,11 @@ function RegisterForm(props) {
             })
                 .then(res => {
                     if (res.status === 200) {
+                        console.log(res)
                         setCheck(true);
                         setLoading(false);
                         alert('Account registration is successful');
+                        dispatch(onLogin());
                         history.push('/login');
                         setAccount({
                             name: "",

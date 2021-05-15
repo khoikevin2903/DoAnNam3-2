@@ -2,6 +2,7 @@ import LoginPage from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 const ROUTES = [
   {
@@ -13,6 +14,11 @@ const ROUTES = [
     path: "/chat",
     exact: true,
     main: ChatPage,
+  },
+  {
+    path: "/edit",
+    exact: true,
+    main: EditProfilePage,
   },
   {
     path: "/login",
