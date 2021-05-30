@@ -4,7 +4,7 @@ import LeftList from "../LeftList/LeftList";
 import RightListFriend from "../RightListFriend/RightListFriend";
 import ClassNames from "classnames";
 import PersonalInformation from './PersonalInformation/PersonalInformation';
-import ChangePassword from './ChangePassword';
+import ChangePassword from './ChangePassword/ChangePassword';
 
 function EditProfile(props) {
 

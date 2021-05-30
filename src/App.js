@@ -1,20 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ROUTES from './routes';
 import firebase from 'firebase';
 import {setData} from './reducers/place';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {defaultDistrictsStart} from './reducers/districtsStart';
 import {defaultDistrictsEnd} from './reducers/districtsEnd';
 import {defaultPlace} from './reducers/infoPlace';
 import {defaultPlaceName} from './reducers/infoPlaceName';
 import {offModal} from './reducers/showModal';
 import {onLogin} from './reducers/login-register';
+import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
 //import {changeOption} from './reducers/optionShow';
 
 function App(props) {
 
 	const dispatch = useDispatch();
+
+	// const checkRoles = useSelector(state => state.CheckLogin.current.roles);
+	// checkRoles.map(item => {
+	// 	if(item === "ROLE_ADMIN") ROUTES.push({
+	// 		path: "/admin/contactsGrid",
+	// 		exact: true,
+	// 		main: ContactsGrid,
+	// 	  })
+	// })
 
 	useEffect(() => {
 		FetchData();
@@ -40,7 +50,9 @@ function App(props) {
 			<div style={{ fontFamily: 'sans-serif' }}>
 				<div className="Noke">
 					<div className="w-full">
-						{showContentMenus(ROUTES)}
+						{
+							showContentMenus(ROUTES)
+						}
 					</div>
 				</div>
 			</div>
