@@ -14,6 +14,8 @@ function Header(props) {
 
 	const [option, setOption] = useState(false);
 
+	const optionShow = useSelector(state => state.OptionShow);
+
 	const HandleChangeOption = () => {
 		setOption(!option);
 	}
@@ -38,12 +40,12 @@ function Header(props) {
 				<div className="flex items-center border border-gray-200 p-3 rounded-lg">
 					<input
 						type="text"
-						placeholder="Type here to search..."
+						placeholder="Tìm kiếm..."
 						className="w-80 focus:border-none focus:outline-none"
 					/>
 					<i className="fas fa-search text-blue-300"></i>
 				</div>
-				<div className="flex items-center w3-animate-right">
+				<div className="flex items-center">
 					<ul className="flex items-center">
 						<li className="bg-avataImage h-12 w-12 bg-cover rounded-full cursor-pointer"></li>
 						<li className="mx-4 cursor-pointer">Khoi Kevin</li>
@@ -73,30 +75,35 @@ function Header(props) {
 						{
 							option && <div className="absolute w-80 right-0 top-12 mt-1 z-50 shadow-xl animate-fade-in-up">
 								<div className="text-white bg-blue-400 py-4 px-3 rounded-t-md font-sans">
-									<h5 className="text-xl">Hello Khoi Kevin</h5>
+									<h5 className="text-xl">Xin chào Khoi Kevin</h5>
 									<p className="text-xs">Available</p>
 								</div>
-								<div className="bg-white py-4 px-3 flex items-center border-b border-gray-50 hover:bg-gray-100 duration-500">
+								<div className="bg-white py-4 px-3 cursor-pointer flex items-center border-b border-gray-50 hover:bg-gray-100 duration-500"
+									onClick={() => {
+										dispatch(changeOption(10));
+										history.push('/myProfile');
+									}}
+								>
 									<div className="text-blue-300 w-1/5 flex justify-center">
 										<i className="far fa-id-badge text-xl bg-gray-100 py-3 px-4 rounded-md" />
 									</div>
 									<div className="w=4/5 px-6">
-										<h5 className="text-base opacity-90">My Profile</h5>
-										<p className="text-sm opacity-50">View personal profile details</p>
+										<h5 className="text-base opacity-90">Thông tin của tôi</h5>
+										<p className="text-sm opacity-50">Giao diện thông tin chi tiết</p>
 									</div>
 								</div>
 								<div className="cursor-pointer bg-white py-4 px-3 flex items-center border-b border-gray-50 hover:bg-gray-50 duration-500"
-								 onClick = {() => {
-									dispatch(changeOption(10));
-									history.push('/edit');
-								 }}
+									onClick={() => {
+										dispatch(changeOption(10));
+										history.push('/edit');
+									}}
 								>
 									<div className="text-yellow-400 w-1/5 flex justify-center">
 										<i className="far fa-address-card text-base bg-gray-50 py-4 px-4 rounded-md" />
 									</div>
 									<div className="w=4/5 px-6">
-										<h5 className="text-base opacity-90">Edit Profile</h5>
-										<p className="text-sm opacity-50">Modify your personal details</p>
+										<h5 className="text-base opacity-90">Chỉnh sửa thông tin</h5>
+										<p className="text-sm opacity-50">Thay đổi thông tin chi cá nhân</p>
 									</div>
 								</div>
 								<div className="cursor-pointer bg-white py-4 px-3 flex items-center border-b border-gray-50 hover:bg-gray-200 duration-500">

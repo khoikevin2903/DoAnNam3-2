@@ -11,22 +11,36 @@ import {defaultPlaceName} from './reducers/infoPlaceName';
 import {offModal} from './reducers/showModal';
 import {onLogin} from './reducers/login-register';
 import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
-//import {changeOption} from './reducers/optionShow';
+import {changeOption} from './reducers/optionShow';
+import {fetchUser} from './reducers/FetchAllUser';
+import {defaultList} from './reducers/fetchListPost';
 
 function App(props) {
 
 	const dispatch = useDispatch();
 
-	// const checkRoles = useSelector(state => state.CheckLogin.current.roles);
-	// checkRoles.map(item => {
-	// 	if(item === "ROLE_ADMIN") ROUTES.push({
-	// 		path: "/admin/contactsGrid",
-	// 		exact: true,
-	// 		main: ContactsGrid,
-	// 	  })
-	// })
+	const User = useSelector(user => user.CheckLogin);
 
+	async function fetchData() {
+		await dispatch(fetchUser(User.current.accessToken));
+	}
+
+	const checkRoles = useSelector(state => state.CheckLogin.current.roles);
+	if(checkRoles){
+		checkRoles.map(item => {
+			if(item === "ROLE_ADMIN"){
+				ROUTES.push({
+					path: "/admin/contactsGrid",
+					exact: true,
+					main: ContactsGrid,
+				  });
+				  fetchData();
+			}
+		})
+	}
+	
 	useEffect(() => {
+		dispatch(defaultList());
 		FetchData();
 		dispatch(offModal());
 		dispatch(defaultDistrictsStart());
@@ -34,7 +48,7 @@ function App(props) {
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
 		dispatch(onLogin());
-		//dispatch(changeOption(0));
+		dispatch(changeOption(0));
 	})
 
 	async function FetchData() {

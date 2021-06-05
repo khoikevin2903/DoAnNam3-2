@@ -2,7 +2,7 @@ import React from 'react';
 
 function Stories(props) {
     return (
-        <div className="bg-white ml-3 mr-6 rounded-md">
+        <div className="bg-white ml-3 mr-6 rounded-md shadow">
             <h2 className="py-4 px-6 opacity-80 border-b text-xl">Stories</h2>
             <div>
                 <div className="flex items-center px-3 py-3">

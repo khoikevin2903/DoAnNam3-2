@@ -8,8 +8,10 @@ import FormTimePicker from './FormTimePicker copy';
 import moment from 'moment';
 import axios from 'axios';
 import * as Config from '../../../../../constants/Config';
-import {defaultPlace} from '../../../../../reducers/infoPlace';
-import {defaultPlaceName} from '../../../../../reducers/infoPlaceName';
+import { defaultPlace } from '../../../../../reducers/infoPlace';
+import { defaultPlaceName } from '../../../../../reducers/infoPlaceName';
+import Transport from '../../../../../constants/Transport';
+import { FetchList } from '../../../../../reducers/fetchListPost';
 
 function FormCreate(props) {
 
@@ -33,6 +35,16 @@ function FormCreate(props) {
 
     const [content, setContent] = useState("");
 
+    const [transport, setTransport] = useState('Ô tô');
+
+    const HandleChangeTransport = (e) => {
+        setTransport(e.target.value);
+    }
+
+    const elm = Transport ? Transport.map((arr, index) => {
+        return <option value={arr} key={index} className="text-sm opacity-70">{arr}</option>
+    }) : "";
+
 
     const CreateTravel = (e) => {
         setLoading(true);
@@ -47,7 +59,8 @@ function FormCreate(props) {
                 fromTime: InfoPlaceName.startCalendar !== null && InfoPlaceName.startTime !== null ?
                     `${InfoPlaceName.startCalendar}${InfoPlaceName.startTime}` : `${moment(new Date()).format().substring(0, 11)}${moment(new Date()).format().substring(11, 19)}`,
                 toTime: InfoPlaceName.endCalendar !== null && InfoPlaceName.endTime !== null ?
-                    `${InfoPlaceName.endCalendar}${InfoPlaceName.endTime}` : `${moment(new Date()).format().substring(0, 11)}${moment(new Date()).format().substring(11, 19)}`
+                    `${InfoPlaceName.endCalendar}${InfoPlaceName.endTime}` : `${moment(new Date()).format().substring(0, 11)}${moment(new Date()).format().substring(11, 19)}`,
+                transport: transport
             }, {
                 headers: {
                     'Authorization': `Bearer ${User.current.accessToken}`
@@ -55,6 +68,7 @@ function FormCreate(props) {
             }).then(res => {
                 console.log(res);
                 if (res.status === 200) {
+                    dispatch(FetchList(User.current.accessToken));
                     setLoading(false);
                     dispatch(offModal());
                 } else {
@@ -76,7 +90,7 @@ function FormCreate(props) {
                 <div className="w-2/3 animate-fade-in-down">
                     <div className="bg-white rounded-md">
                         <div className="py-4 px-6 border-b flex items-center justify-between">
-                            <h2 className="opacity-80 text-blue-500 text-2xl">Create Post</h2>
+                            <h2 className="opacity-80 text-blue-500 text-2xl">Tạo Lịch Trình</h2>
                             <div className="text-white bg-gray-400 h-8 w-10 flex justify-center items-center rounded-md cursor-pointer hover:bg-gray-500 duration-500"
                                 onClick={() => {
                                     dispatch(offModal());
@@ -94,13 +108,13 @@ function FormCreate(props) {
                                     <div className="bg-avataImage h-16 w-16 bg-cover rounded-full mr-6"></div>
                                     <input onChange={(e) => {
                                         setContent(e.target.value)
-                                    }} type="text" placeholder="Write something here..." className="text-sm font-normal px-3 focus:outline-none focus:border-none" />
+                                    }} type="text" placeholder="Thông tin chi tiết ..." className="text-sm font-normal px-3 focus:outline-none focus:border-none" />
                                 </div>
                             </div>
                             <div className="py-3 px-4 grid grid-flow-row grid-cols-3 grid-rows-4 gap-4">
-                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
-                                    <i className="fas fa-plane-departure text-blue-400 mr-4"></i>
-                                    <p >Start Place : </p>
+                                <div className="flex items-center rounded-lg text-xl opacity-70">
+                                    <i className="fas fa-plane-departure text-blue-400 ml-4 mr-4 w-1/5"></i>
+                                    <p >Khởi hành</p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
                                     <FormStartPlace array={Place.map(rs => rs.name)} name="startCity" width="w-52" type="Tỉnh/Thành Phố" />
@@ -108,9 +122,9 @@ function FormCreate(props) {
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
                                     <FormStartPlace array={InfoPlace.startCity !== null ? districtStart.map(rs => rs.name) : null} name="startDistrict" width="w-52" type="Quận/Huyện" />
                                 </div>
-                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
-                                    <i className="fas fa-plane-arrival text-blue-400 mr-4"></i>
-                                    <p >End Place : </p>
+                                <div className="flex items-center rounded-lg text-xl opacity-70">
+                                    <i className="fas fa-plane-arrival text-blue-400 ml-4 mr-4 w-1/5"></i>
+                                    <p >Kết thúc</p>
                                 </div>
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
                                     <FormEndPlace array={Place.map(rs => rs.name)} name="endCity" width="w-52" type="Tỉnh/Thành Phố" />
@@ -118,9 +132,9 @@ function FormCreate(props) {
                                 <div className="flex items-center shadow-md px-2 py-2 rounded-md">
                                     <FormEndPlace array={InfoPlace.endCity !== null ? districtEnd.map(rs => rs.name) : null} name="endDistrict" width="w-52" type="Quận/Huyện" />
                                 </div>
-                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
-                                    <i className="fas fa-hourglass-end text-blue-400 mr-4"></i>
-                                    <p >Start Time : </p>
+                                <div className="flex items-center rounded-lg text-xl opacity-70">
+                                    <i className="fas fa-hourglass-end text-blue-400 ml-4 mr-4 w-1/5"></i>
+                                    <p >Thời gian đi</p>
                                 </div>
                                 <div className="flex items-center justify-center">
                                     <FormDatePicker name="startCalendar" />
@@ -128,9 +142,9 @@ function FormCreate(props) {
                                 <div className="flex items-center justify-center">
                                     <FormTimePicker name="startTime" />
                                 </div>
-                                <div className="flex justify-center items-center rounded-lg mr-4 text-xl opacity-70">
-                                    <i className="fas fa-hourglass-start text-blue-400 mr-4"></i>
-                                    <p >End Time : </p>
+                                <div className="flex items-center rounded-lg text-xl opacity-70">
+                                    <i className="fas fa-hourglass-start text-blue-400 ml-4 mr-4 w-1/5"></i>
+                                    <p >Thời gian đến</p>
                                 </div>
                                 <div className="flex items-center justify-center">
                                     <FormDatePicker name="endCalendar" />
@@ -138,19 +152,35 @@ function FormCreate(props) {
                                 <div className="flex items-center justify-center">
                                     <FormTimePicker name="endTime" />
                                 </div>
+
                             </div>
                             {check && (
                                 <p className="text-sm text-red-600 ml-1 mt-1 mb-2 pl-12 italic">Vui lòng kiểm tra lại thông tin cần đăng</p>
                             )}
-                            <div className="py-3 px-2 border-t">
-                                <div className="flex justify-center">
-                                    <button className="flex items-center cursor-pointer transition duration-500 transform py-2 px-16 bg-blue-500 text-white border-2 border-blue-600 rounded-lg text-xl"
+                            <div className="px-2 border-t w-full">
+                                <div className="grid grid-flow-row grid-cols-3 grid-rows-1 gap-2">
+                                    <div className="flex items-center rounded-lg text-xl opacity-70">
+                                        <i className="fas fa-car text-blue-400 ml-4 mr-4 w-1/5"></i>
+                                        <p >Phương tiện</p>
+                                    </div>
+                                    <div className="flex items-center justify-center rounded-lg my-3 px-2 shadow">
+                                        <div className={`inline-block relative font-thin text-base w-52`}>
+                                            <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-2 py-3 rounded leading-tight focus:outline-none focus:shadow-outline"
+                                                name="transport" value={transport} onChange={HandleChangeTransport}>
+                                                {elm}
+                                            </select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button className="flex items-center justify-center cursor-pointer m-4 transition duration-500 transform py-3 px-10 bg-blue-500 text-white border-2 border-blue-600 rounded-lg text-xl"
                                         type="submit"
                                         onClick={CreateTravel}
                                     >
-                                        <span>Create Post</span>
+                                        <span>Tạo</span>
                                         {loading && (
-                                            <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
+                                            <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-4 w-4 ml-3"></div>
                                         )}
                                     </button>
                                 </div>

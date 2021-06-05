@@ -14,6 +14,9 @@ import InfoPlaceName from './../reducers/infoPlaceName';
 import Place from './../reducers/place';
 import DisTrictsStart from './../reducers/districtsStart';
 import DisTrictsEnd from './../reducers/districtsEnd';
+import FetchListPost from './../reducers/fetchListPost';
+import OtherUser from './../reducers/otherUser';
+import FetchAllUser from './../reducers/FetchAllUser';
 import thunk from "redux-thunk"
 import {applyMiddleware} from 'redux'
 
@@ -29,6 +32,9 @@ const rootReducer = combineReducers({
     Place: Place,
     DisTrictsStart: DisTrictsStart,
     DisTrictsEnd: DisTrictsEnd,
+    FetchListPost: FetchListPost,
+    OtherUser: OtherUser,
+    FetchAllUser: FetchAllUser,
 });
 
 const persistConfig = {

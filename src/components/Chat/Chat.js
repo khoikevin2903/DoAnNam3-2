@@ -47,150 +47,150 @@ function Chat(props) {
                     <ScrollColor
                         style={{ height: 600 }}
                         >
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 0 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(0)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Tran Anh Khoi</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 1 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(1)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Anh Khoi Tran</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
-                        <div className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
+                        </li>
+                        <li className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === 2 ? 'bg-gray-50' : 'bg-white'}`}
                             onClick={() => HandleChangeMess(2)}>
                             <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">Khoi Tran Anh</p>
                                 <p className="opacity-60">Designer</p>
                             </div>
-                        </div>
+                        </li>
                     </ScrollColor>
                 </div>
                 <div className="w-3/4 h-full bg-bgChat bg-cover bg-no-repeat h-full" style={{ borderRadius: "0px 10px 10px 0px" }}>

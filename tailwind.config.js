@@ -125,6 +125,8 @@ module.exports = {
         avataImage: "url('./image/avata.jpg')",
         bgChat: "url('./image/bgChat.jpg')",
         avataImage2: "url('./image/avata2.jpg')",
+        bgProfile: "url('./image/bgProfile.jpg')",
+        avatabig: "url('./image/avatabig.png')",
       }),
     },
   },
