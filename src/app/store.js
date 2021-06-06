@@ -17,8 +17,10 @@ import DisTrictsEnd from './../reducers/districtsEnd';
 import FetchListPost from './../reducers/fetchListPost';
 import OtherUser from './../reducers/otherUser';
 import FetchAllUser from './../reducers/FetchAllUser';
-import thunk from "redux-thunk"
-import {applyMiddleware} from 'redux'
+import FetchListChat from './../reducers/FetchListChat';
+import Conversation from './../reducers/conversation';
+import thunk from "redux-thunk";
+import {applyMiddleware} from 'redux';
 
 
 const rootReducer = combineReducers({
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     FetchListPost: FetchListPost,
     OtherUser: OtherUser,
     FetchAllUser: FetchAllUser,
+    FetchListChat: FetchListChat,
+    Conversation : Conversation,
 });
 
 const persistConfig = {

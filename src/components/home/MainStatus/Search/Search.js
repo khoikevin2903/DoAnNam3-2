@@ -100,7 +100,7 @@ function Search(props) {
 
     return (
         <form className="bg-white ml-3 mr-6 rounded-md mt-4 shadow">
-            <h2 className="py-4 px-6 opacity-80 border-b text-xl">Tìm kiếm lịch trình</h2>
+            <h2 className="py-4 px-6 opacity-80 border-b text-xl font-medium">Tìm kiếm lịch trình</h2>
             <div className="flex items-center mt-2">
                 <p className="w-1/3 ml-2">Người đăng</p>
                 <input type="text" name="username" value={search.username} onChange={HandleChangeSearch} className="border border-gray-400 px-2 py-1 rounded-md mx-2 focus:outline-none focus:border-none" style={{ width: "164px" }} />

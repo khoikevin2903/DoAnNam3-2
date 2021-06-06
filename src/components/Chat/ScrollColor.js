@@ -19,7 +19,7 @@ export default class ScrollColor extends Component {
     renderView({ style, ...props }) {
         const { top } = this.state;
         const viewStyle = {
-            backgroundColor: `rgb(${Math.round(255 - (top * 100))}, ${Math.round(top * 100)}, ${Math.round(100)})`,
+            backgroundColor: 'white',
         };
         return (
             <div
@@ -28,7 +28,7 @@ export default class ScrollColor extends Component {
                 {...props}/>
         );
     }
-
+    
     renderThumb({ style, ...props }) {
         const { top } = this.state;
         const thumbStyle = {

@@ -6,6 +6,7 @@ import HeaderOtherProfile from './HeaderOtherProfile';
 import {infoOtherUser, saveUser} from '../../reducers/otherUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from "@reduxjs/toolkit";
+
 function OtherProfile({match}) {
 
     const User = useSelector(user => user.CheckLogin);

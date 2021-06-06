@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ROUTES from './routes';
 import firebase from 'firebase';
@@ -11,7 +11,7 @@ import {defaultPlaceName} from './reducers/infoPlaceName';
 import {offModal} from './reducers/showModal';
 import {onLogin} from './reducers/login-register';
 import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
-import {changeOption} from './reducers/optionShow';
+//import {changeOption} from './reducers/optionShow';
 import {fetchUser} from './reducers/FetchAllUser';
 import {defaultList} from './reducers/fetchListPost';
 
@@ -48,7 +48,7 @@ function App(props) {
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
 		dispatch(onLogin());
-		dispatch(changeOption(0));
+		//dispatch(changeOption(0));
 	})
 
 	async function FetchData() {

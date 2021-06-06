@@ -6,10 +6,13 @@ const options = createSlice({
     reducers: {
         changeOption : (state, action) => {
             return action.payload;
+        },
+        defaultOptionLeft : (state) => {
+            return 0;
         }
     }
 })
 
 const {reducer, actions} = options;
-export const {changeOption} = actions;
+export const {changeOption, defaultOptionLeft} = actions;
 export default reducer;
