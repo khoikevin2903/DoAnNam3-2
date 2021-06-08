@@ -4,14 +4,100 @@ import LeftList from '../../../components/LeftList/LeftList';
 import RightListFriend from "../../../components/RightListFriend/RightListFriend";
 import { Link } from 'react-router-dom';
 import Classnames from 'classnames';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import * as Config from '../../../constants/Config';
+import {fetchUser} from '../../../reducers/FetchAllUser';
 
 function ContactsGrid(props) {
 
-    const ListUser = useSelector(state => state.FetchAllUser);
+    const dispatch = useDispatch();
 
-    const [page, setPage] = useState(1);
+    const User = useSelector(state =>state.CheckLogin);
+
+    const SortArr = (array) => {
+        return array.sort(function (a, b) {
+            return a.id - b.id;
+        })
+    }
+
+    let ListUser = useSelector(state => state.FetchAllUser);
+    
+    ListUser = SortArr([...ListUser]);
+    const [page, setPage] = useState({
+        _limit: 10,
+        page: 1
+    });
+
+    const HandleChangePage = (num) => {
+        setPage({ ...page, page: num })
+    }
+
+    const Rating = (num) => {
+        let result = [];
+        const newNum = Math.round(num);
+        for (let i = 1; i <= 5; i++) {
+            if (i <= num) {
+                result.push(<i className="fas fa-star" key={i}></i>)
+            }
+        }
+        if (num < newNum) {
+            result.push(<i className="fas fa-star-half-alt" key={newNum - 1}></i>)
+        }
+        for (let i = newNum; i < 5; i++) {
+            result.push(<i className="far fa-star" key={i}></i>)
+        }
+        return result;
+    }
+
+    const HandleBlock = (item) => {
+        axios.get(`${Config.API_URL}/api/users/block/${item.id}`, {
+            headers: {
+                'Authorization': `Bearer ${User.current.accessToken}`
+            }}).then(res => {
+                if(res.status === 200){
+                    if(item.block === true){
+                        alert('Mở khóa người dùng thành công !');
+                    } else alert('Khóa người dùng thành công !');
+                    dispatch(fetchUser(User.current.accessToken));
+                    ListUser = SortArr([...ListUser]);
+                }
+                else {
+                    alert('Chức năng xảy ra lỗi !')
+                }
+            })
+    }
+
+    const fetchListWithPage = (list) => {
+        var result = null;
+        const newList = list.filter((elm, index) => index >= page._limit * page.page - 10 && index < page._limit * page.page)
+        result = newList.map((item, index) => {
+            return (
+                <tr className="text-sm border-b border-gray-200" key={index}>
+                    <td className="pl-3 py-4">{item.id}</td>
+                    <td>{`${item.lastName} ${item.firstName}`}</td>
+                    <td>{item.username}</td>
+                    <td>{item.email}</td>
+                    <td className="pl-4">
+                        <div style={{ color: '#bcd809' }} className="">
+                            {Rating(item.avgRating)}
+                        </div>
+                    </td>
+                    <td className="flex h-full items-center justify-center">{item.numberOfPost}</td>
+                    <td>
+                        <Link title="Trang cá nhân" to="/profile/anhkhoi">
+                            <i className="far fa-user-circle" alt="aaa"></i>
+                        </Link>
+                        <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
+                        {item.blocked === true ? <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản" onClick={() => HandleBlock({block: item.blocked, id: item.id})}></i> :
+                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản" onClick={() => HandleBlock({block: item.blocked, id: item.id})}></i>
+                        }
+                    </td>
+                </tr>
+            )
+        })
+        return result;
+    }
 
     return (
         <div className="w-full relative">
@@ -39,251 +125,7 @@ function ContactsGrid(props) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-sm border-b border-gray-200">
-                                        <td className="pl-3 py-4">1000</td>
-                                        <td>Tran Anh Khoi</td>
-                                        <td>khoikevin</td>
-                                        <td>khoikevin2903@gmail.com</td>
-                                        <td className="pl-4">
-                                            <div style={{ color: '#bcd809' }} className="">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>
-                                            <Link title="Trang cá nhân" to="/profile/anhkhoi">
-                                                <i className="far fa-user-circle" alt="aaa"></i>
-                                            </Link>
-                                            <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>
-                                            <i className="fas fa-lock px-2 cursor-pointer" title="Khóa tài khoản"></i>
-                                            <i className="fas fa-lock-open px-2 cursor-pointer" title="Mở khóa tài khoản"></i>
-                                        </td>
-                                    </tr>
-                                   
-                                   
-                                   
-
-                                    
+                                    {fetchListWithPage(ListUser)}
                                 </tbody>
                             </table>
                             <div className=" flex justify-center pt-2 w-full ">
@@ -291,62 +133,62 @@ function ContactsGrid(props) {
                                     <li className={Classnames(
                                         'text-xs h-8 w-8 flex items-center justify-center mx-2 text-blue-300 rounded-full cursor-pointer',
                                         {
-                                            'text-blue-500 hover:bg-gray-200': page !== 1
+                                            'text-blue-500 hover:bg-gray-200': page.page !== 1
                                         }
-                                    )} onClick={() => setPage(page !== 1 ? page - 1 : page )}>
+                                    )} onClick={() => HandleChangePage(page.page !== 1 ? page.page - 1 : page.page)}>
                                         <i className="fas fa-chevron-left"></i>
                                     </li>
                                     <li className={Classnames(
                                         'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
                                         {
-                                            'text-white opacity-80 bg-blue-500': page === 1
+                                            'text-white opacity-80 bg-blue-500': page.page === 1
                                         },
                                         {
-                                            'hover:bg-gray-200 text-gray-600': page !== 1
+                                            'hover:bg-gray-200 text-gray-600': page.page !== 1
                                         }
-                                    )} onClick={() => setPage(1)}>1</li>
-                                   <li className={Classnames(
-                                        'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
-                                        {
-                                            'text-white opacity-80 bg-blue-500': page === 2
-                                        },
-                                        {
-                                            'hover:bg-gray-200 text-gray-600': page !== 2
-                                        }
-                                    )} onClick={() => setPage(2)}>2</li>
+                                    )} onClick={() => HandleChangePage(1)}>1</li>
                                     <li className={Classnames(
                                         'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
                                         {
-                                            'text-white opacity-80 bg-blue-500': page === 3
+                                            'text-white opacity-80 bg-blue-500': page.page === 2
                                         },
                                         {
-                                            'hover:bg-gray-200 text-gray-600': page !== 3
+                                            'hover:bg-gray-200 text-gray-600': page.page !== 2
                                         }
-                                    )} onClick={() => setPage(3)}>3</li>
+                                    )} onClick={() => HandleChangePage(2)}>2</li>
                                     <li className={Classnames(
                                         'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
                                         {
-                                            'text-white opacity-80 bg-blue-500': page === 4
+                                            'text-white opacity-80 bg-blue-500': page.page === 3
                                         },
                                         {
-                                            'hover:bg-gray-200 text-gray-600': page !== 4
+                                            'hover:bg-gray-200 text-gray-600': page.page !== 3
                                         }
-                                    )} onClick={() => setPage(4)}>4</li>
+                                    )} onClick={() => HandleChangePage(3)}>3</li>
                                     <li className={Classnames(
                                         'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
                                         {
-                                            'text-white opacity-80 bg-blue-500': page === 5
+                                            'text-white opacity-80 bg-blue-500': page.page === 4
                                         },
                                         {
-                                            'hover:bg-gray-200 text-gray-600': page !== 5
+                                            'hover:bg-gray-200 text-gray-600': page.page !== 4
                                         }
-                                    )} onClick={() => setPage(5)}>5</li>
+                                    )} onClick={() => HandleChangePage(4)}>4</li>
                                     <li className={Classnames(
-                                        'text-xs h-8 w-8 mx-1 flex items-center justify-center  text-blue-300 rounded-full cursor-pointer',
+                                        'h-8 w-8 flex items-center justify-center rounded-full mx-1 cursor-pointer',
                                         {
-                                            'text-blue-500 hover:bg-gray-200': page !== 5
+                                            'text-white opacity-80 bg-blue-500': page.page === 5
+                                        },
+                                        {
+                                            'hover:bg-gray-200 text-gray-600': page.page !== 5
                                         }
-                                    )} onClick={() => setPage(page !== 5 ? page + 1 : page )}>
+                                    )} onClick={() => HandleChangePage(5)}>5</li>
+                                    <li className={Classnames(
+                                        'text-xs h-8 w-8 mx-1 flex items-center justify-center text-blue-300 rounded-full cursor-pointer',
+                                        {
+                                            'text-blue-500 hover:bg-gray-200': page.page !== 5
+                                        }
+                                    )} onClick={() => HandleChangePage(page.page !== 5 ? page.page + 1 : page.page)}>
                                         <i className="fas fa-chevron-right"></i>
                                     </li>
                                 </ul>

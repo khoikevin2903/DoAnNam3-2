@@ -3,7 +3,7 @@ import React from 'react';
 
 function HeaderProfile(props) {
     return (
-        <div className="bg-white relative rounded-md">
+        <div className="bg-white relative rounded-md shadow">
             <div className="bg-bgProfile bg-no-repeat bg-cover h-64 w-full rounded-b-md relative">
                 <div className="absolute right-0 bottom-4 opacity-80">
                     <ul className="flex items-center">
@@ -13,7 +13,6 @@ function HeaderProfile(props) {
                         <li className="flex items-center justify-center ml-1 mr-3 text-blue-500 h-10 w-10 bg-white rounded-full">
                             <ion-icon name="settings-outline"></ion-icon>
                         </li>
-
                     </ul>
                 </div>
             </div>

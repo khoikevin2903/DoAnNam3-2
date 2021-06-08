@@ -7,7 +7,7 @@ const UseSocket = () => {
 
     const { sendMessage } = useSockjs({
         url: SOCKET_URL,
-        topics: ['/user'],
+        
         onMessage: (body, destination) => {
             console.log(body, destination);
             setData(body);

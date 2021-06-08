@@ -14,7 +14,7 @@ const ROUTES = [
     main: HomePage,
   },
   {
-    path: "/chat",
+    path: "/chat/:id",
     exact: true,
     main: ChatPage,
   },

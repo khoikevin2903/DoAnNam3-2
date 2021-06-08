@@ -7,7 +7,7 @@ export const fetchUser = createAsyncThunk('fetchUser', async (params, thunkAPI) 
         headers: {
             'Authorization': `Bearer ${params}`
         }
-    }).then(res =>thunkAPI.dispatch(saveListUser(res.data.content)));
+    }).then(res =>thunkAPI.dispatch(saveListUser(res.data)));
     return dataUser;
 })
 
@@ -16,7 +16,7 @@ const FetchAllUser = createSlice({
     initialState: [],
     reducers: {
         saveListUser: (state, action) => {
-            return action.payload;
+            return action.payload.reverse();
         },
     },
     extraReducers: {

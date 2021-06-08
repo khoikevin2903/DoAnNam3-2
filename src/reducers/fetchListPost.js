@@ -10,7 +10,7 @@ export const FetchList = createAsyncThunk('fetchList', async (params, thunkAPI) 
             'Authorization': `Bearer ${params}`
         }
     }
-    ).then(res => thunkAPI.dispatch(saveList(res.data.content)));
+    ).then(res => thunkAPI.dispatch(saveList(res.data)));
     return dataUser;
 })
 

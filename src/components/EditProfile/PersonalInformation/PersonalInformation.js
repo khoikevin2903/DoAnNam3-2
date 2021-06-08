@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormDatePicker from './FormDatePicker';
 import { changeInfo } from '../../../reducers/changeInformation';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 function PersonalInformation(props) {
 
     const dispatch = useDispatch();
 
-    const [info, setInfo] = useState({
-        firstName: 'Khôi',
-        lastName: 'Trần',
-        idCardNumber: 123456789,
-        city: 'Đà Nẵng',
-        phoneNumber: '0786127507',
-        age: '10',
-        gender: true,
-        dayOfBirth: new Date()
-    })
+    const Information = useSelector(state => state.Information);
+
+    const User = useSelector(state => state.CheckLogin);
+
+    const [info, setInfo] = useState({...Information})
+
+    useEffect(() => {
+            setInfo({...Information})
+    }, [])
 
     const [check, setCheck] = useState();
 
@@ -27,14 +27,17 @@ function PersonalInformation(props) {
 
     const HandleChangeInfo = (e) => {
         const target = e.target;
-        const name = target.name;
-        const value = target.value;
-        setInfo({...info, [name] : value});
-        console.log({...info, [name] : value})
+        let name = target.name;
+        let value = target.value;
+        if (name === 'gender') {
+            if (value === 'male') value = true;
+            else value = false
+        }
+        setInfo({ ...info, [name]: value });
     }
 
     const HandleChangeDate = (date) => {
-        setInfo({ ...info, dayOfBirth: date });
+        setInfo({ ...info, dob: date });
     }
 
     const HandleSubmit = async (e) => {
@@ -42,17 +45,19 @@ function PersonalInformation(props) {
         e.preventDefault();
         try {
             const actionResult = await dispatch(changeInfo({
+                id: User.current.id,
                 firstName: info.firstName,
                 lastName: info.lastName,
                 idCardNumber: info.idCardNumber,
-                address : info.city,
+                address: info.address,
                 phoneNumber: info.phoneNumber,
-                age: info.age,
+                age: Number(info.age),
                 gender: info.gender,
-                dayOfBirth: info.dayOfBirth
-
+                dob:  moment(info.dob).format().substring(0,29),
+                header: User.current.accessToken
             }));
             const currentResult = unwrapResult(actionResult);
+            console.log(currentResult)
             if (currentResult.status === 200) {
                 setLoading(false);
                 setCheck(true);
@@ -82,29 +87,29 @@ function PersonalInformation(props) {
                     <div className="grid grid-flow-row grid-cols-2 auto-rows-auto gap-1">
                         <p className="flex items-center mx-3">Tên:</p>
                         <p className="flex items-center mx-3">Họ:</p>
-                        <input type="text" name="firstName" value={info.firstName} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
-                        <input type="text" name="lastName" value={info.lastName} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="text" name="firstName" value={info.firstName ? info.firstName : ""} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="text" name="lastName" value={info.lastName ? info.lastName : ""} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
                         <p className="flex items-center mx-3">Chứng minh nhân dân:</p>
                         <p className="flex items-center mx-3">Thành phố:</p>
-                        <input type="text" name="idCardNumber" value={info.idCardNumber} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
-                        <input type="text" name="address " value={info.address } onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="text" name="idCardNumber" value={info.idCardNumber ? info.idCardNumber : ""} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="text" name="address" value={info.address? info.address : "" } onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
                         <p className="flex items-center mx-3">Số điện thoại:</p>
                         <p className="flex items-center mx-3">Tuổi:</p>
-                        <input type="text" name="phoneNumber" value={info.phoneNumber} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
-                        <input type="text" name="age" value={info.age} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="text" name="phoneNumber" value={info.phoneNumber ? info.phoneNumber: ""} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
+                        <input type="number" name="age" value={info.age ? info.age : ""} onChange={HandleChangeInfo} className=" flex items-center mx-3 border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-none" />
                         <p className="flex items-center mx-3">Giới tính:</p>
                         <p className="flex items-center mx-3">Ngày sinh:</p>
                         <div className="flex items-center mx-3">
                             <label className="inline-flex items-center mr-6">
-                                <input type="radio" className="form-radio h-5 w-5 text-blue-600" checked="checked" name="gender" value={info.gender} onChange={HandleChangeInfo} />
+                                <input type="radio" className="form-radio h-5 w-5 text-blue-600" name="gender" id="male" checked={info.gender === true} value="male" onChange={HandleChangeInfo} />
                                 <span className="ml-2 text-gray-700">Nam</span>
                             </label>
                             <label className="inline-flex items-center">
-                                <input type="radio" className="form-radio h-5 w-5 text-blue-600" name="gender" value={info.gender} onChange={HandleChangeInfo} />
+                                <input type="radio" className="form-radio h-5 w-5 text-blue-600" name="gender" id="female" checked={info.gender === false} value="female" onChange={HandleChangeInfo} />
                                 <span className="ml-2 text-gray-700">Nữ</span>
                             </label>
                         </div>
-                        <FormDatePicker HandleChange={HandleChangeDate} />
+                        <FormDatePicker HandleChange={HandleChangeDate} dob={info.dob} />
                     </div>
                     {check === false && <p className="py-1 text-red-600">{mess}</p>}
                     {check === true && <p className="py-1 text-green-400">{mess}</p>}

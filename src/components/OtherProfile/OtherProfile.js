@@ -21,7 +21,6 @@ function OtherProfile({match}) {
         async function fetchData() {
             const actionResult = await dispatch(infoOtherUser({id: match.params.id, header : User.current.accessToken}));
             const currentInfo = unwrapResult(actionResult);
-            console.log(currentInfo);
             dispatch(saveUser(currentInfo));
         }
         fetchData();

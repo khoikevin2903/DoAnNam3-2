@@ -14,6 +14,7 @@ import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
 //import {changeOption} from './reducers/optionShow';
 import {fetchUser} from './reducers/FetchAllUser';
 import {defaultList} from './reducers/fetchListPost';
+import {getInfo} from './reducers/changeInformation';
 
 function App(props) {
 
@@ -48,6 +49,7 @@ function App(props) {
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
 		dispatch(onLogin());
+		dispatch(getInfo({header: User.current.accessToken, id: User.current.id}))
 		//dispatch(changeOption(0));
 	})
 
@@ -81,7 +83,7 @@ const showContentMenus = (routes) => {
 				key={index}
 				path={route.path}
 				exact={route.exact}
-				render={props => <route.main {...props} />}
+				render={props => <route.main {...props}/>}
 			/>)
 
 		})

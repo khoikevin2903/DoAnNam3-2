@@ -3,7 +3,6 @@ import axios from 'axios';
 import * as Config from '../constants/Config';
 
 export const FetchChat = createAsyncThunk('user/fetchList', async (params, thunkAPI) => {
-    console.log(params)
     const dataUser = await axios.get(`${Config.API_URL}/api/chatroom/me/${params.id}`, {
         headers: {
             'Authorization': `Bearer ${params.header}`

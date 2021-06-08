@@ -9,7 +9,7 @@ function MainStatus(props) {
     return (
         <div className="w-full mx-3 flex pt-2 bg-gray-100">
             <div className="w-2/3">
-                <div className="w-full bg-white text-xl rounded-md">
+                <div className="w-full bg-white text-xl rounded-md cursor-pointer">
                     <CreatePost />
                 </div>
                 <div className="w-full">

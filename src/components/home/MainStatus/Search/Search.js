@@ -69,13 +69,13 @@ function Search(props) {
                 toTime: moment(endTime).format().substring(0, 19),
             }
         }
-        if(search.username !== "") obj = {...obj, word: search.username};
-        if(search.transport !== "") obj = {...obj, transport: search.transport};
-        if(search.fromCity !== "" && search.fromDistrict !== "") obj = {...obj, fromPlace: `${search.fromDistrict}-${search.fromCity}`};
-        if(search.fromCity !== "" && search.fromDistrict === "") obj = {...obj, fromPlace: `${search.fromCity}`};
-        if(search.toCity !== "" && search.toDistrict !== "") obj = {...obj, toPlace: `${search.toDistrict}-${search.toCity}`};
-        if(search.toCity !== "" && search.toDistrict === "") obj = {...obj, toPlace: `${search.toCity}`};
-        if((Object.values(obj).length === 0) === true ){
+        if (search.username !== "") obj = { ...obj, word: search.username };
+        if (search.transport !== "") obj = { ...obj, transport: search.transport };
+        if (search.fromCity !== "" && search.fromDistrict !== "") obj = { ...obj, fromPlace: `${search.fromDistrict}-${search.fromCity}` };
+        if (search.fromCity !== "" && search.fromDistrict === "") obj = { ...obj, fromPlace: `${search.fromCity}` };
+        if (search.toCity !== "" && search.toDistrict !== "") obj = { ...obj, toPlace: `${search.toDistrict}-${search.toCity}` };
+        if (search.toCity !== "" && search.toDistrict === "") obj = { ...obj, toPlace: `${search.toCity}` };
+        if ((Object.values(obj).length === 0) === true) {
             dispatch(FetchList(User.current.accessToken));
         }
         else {
@@ -84,9 +84,8 @@ function Search(props) {
                     'Authorization': `Bearer ${User.current.accessToken}`
                 }
             }).then(async res => {
-                console.log(res);
                 if (res.status === 200) {
-                   await dispatch(saveList(res.data));
+                    await dispatch(saveList(res.data));
                     setLoading(false);
                 } else {
                     setLoading(false);
@@ -94,8 +93,7 @@ function Search(props) {
             }).catch(err => {
                 setLoading(false);
             })
-            console.log()
-        }  
+        }
     }
 
     return (
@@ -158,10 +156,13 @@ function Search(props) {
                 </div>
             </div>
             <div className="flex justify-center py-4">
-                <button className="transition duration-500 hover:no-underline ease-in-out transform hover:-translate-y-1 hover:scale-110 py-1 px-8 hover:bg-blue-500 hover:text-white border border-blue-600 rounded-lg text-blue-400 text-xl"
+                <button className="flex items-center transition duration-500 hover:no-underline ease-in-out transform hover:-translate-y-1 hover:scale-110 py-1 px-8 hover:bg-blue-500 hover:text-white border border-blue-600 rounded-lg text-blue-400 text-xl"
                     onClick={HandleSubmit}
                 >
-                    Tìm kiếm
+                    <span>Tìm kiếm</span>
+                    {loading && (
+                        <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-4 w-4 ml-3"></div>
+                    )}
                 </button>
             </div>
 

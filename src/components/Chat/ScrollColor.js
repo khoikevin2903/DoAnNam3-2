@@ -19,7 +19,7 @@ export default class ScrollColor extends Component {
     renderView({ style, ...props }) {
         const { top } = this.state;
         const viewStyle = {
-            backgroundColor: 'white',
+            
         };
         return (
             <div

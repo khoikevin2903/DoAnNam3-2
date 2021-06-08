@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 function Post(props) {
 
-    const history = useHistory();
+    const [check, setCheck] = useState(0)
+
+    const User = useSelector(state => state.CheckLogin);
 
     const timeSince = (date) => {
 
@@ -46,19 +48,59 @@ function Post(props) {
                 return (
                     <div className="mb-3 bg-white rounded-lg px-3 shadow mt-4" key={item.id}>
                         <div className="border-b">
-                            <div className="flex items-center py-3">
-                                <div className="bg-avataImage h-12 w-12 bg-cover rounded-full mr-6 cursor-pointer" onClick={() => {
-                                    history.push(`/profile/${item.creatorId}`)
-                                }}>
+                            <div className="flex items-center py-3 relative">
+                                <div className="avatar bg-avataImage h-12 w-12 bg-cover rounded-full mr-6 cursor-pointer"
+                                    onClick={() => {
+                                        if (check === index + 1) setCheck(0);
+                                        else setCheck(index + 1)
+                                    }} >
                                 </div>
                                 <div>
-                                    <p className="font-bold">{`${item.creatorUname} `}<span className="font-normal">đã thêm lịch trình mới - Phương tiện : </span>{item.transport !== null ? item.transport : 'Xe máy'}</p>
+                                    <p className="font-bold">{`${item.infoUser.lastName} ${item.infoUser.firstName} `}<span className="font-normal"
+                                    >đã thêm lịch trình mới - Phương tiện : </span>{item.transport !== null ? item.transport : 'Xe máy'}</p>
                                     <div className="text-xs text-gray-500 flex items-center">
                                         <p>{timeSince(Date.parse(item.createAt))}</p>
                                         <p className="mx-1"> · </p>
                                         <i className="fas fa-globe-americas"></i>
                                     </div>
                                 </div>
+                                {(index + 1 === check && User.current.id !== item.creatorId) && <div className="duration-500 shadow-md p-4 bg-white absolute rounded-md" style={{ left: "-130px", top: "-160px", width: "300px" }}>
+                                    <div className="flex items-center ">
+                                        <div className="avatar bg-avataImage h-20 w-20 bg-cover rounded-full mr-6 cursor-pointer">
+                                        </div>
+                                        <div>
+                                            <p className="font-bold py-3 text-xl">{`${item.infoUser.lastName} ${item.infoUser.firstName}`}</p>
+                                            <p className="opacity-75">{`Thành Phố: ${item.infoUser.address}`}</p>
+                                            <p className="opacity-75">{`CMND : ${item.infoUser.idCardNumber}`}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end items-center mt-2">
+                                        <Link to={`/chat/${item.creatorId}`} className="rounded-md font-medium text-white bg-blue-500 py-2 px-10 flex items-center justify-center">
+                                            <i className="fab fa-facebook-messenger pl-1 pr-3"></i>
+                                            <p>Nhắn tin</p>
+                                        </Link>
+                                        <div className="rounded-md ml-2 opacity-75  px-4 py-3 bg-gray-200 flex items-center justify-center">
+                                            <i className="fas fa-ellipsis-h"></i>
+                                        </div>
+                                    </div>
+                                </div>}
+                                {(index + 1 === check && User.current.id === item.creatorId) && <div className="duration-500 shadow-md p-4 bg-white absolute rounded-md" style={{ left: "-130px", top: "-160px", width: "300px" }}>
+                                    <div className="flex items-center ">
+                                        <div className="avatar bg-avataImage h-20 w-20 bg-cover rounded-full mr-6 cursor-pointer">
+                                        </div>
+                                        <div>
+                                            <p className="font-bold py-3 text-xl">{`${item.infoUser.lastName} ${item.infoUser.firstName}`}</p>
+                                            <p className="opacity-75">{`Thành Phố: ${item.infoUser.address}`}</p>
+                                            <p className="opacity-75">{`CMND : ${item.infoUser.idCardNumber}`}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end items-center mt-2 font-medium opacity-80">
+                                        <Link className="p-2 bg-gray-200 rounded-md flex items-center justify-center" to="/edit">
+                                            <i className="fas fa-pen pl-1 pr-3"></i>
+                                            <p>Chỉnh sửa trang cá nhân</p>
+                                        </Link>
+                                    </div>
+                                </div>}
                             </div>
                             <p className="mb-3">{item.description}</p>
 

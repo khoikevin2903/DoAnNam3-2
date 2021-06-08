@@ -16,11 +16,11 @@ function Home(props) {
     const dispatch = useDispatch();
 
     const User = useSelector(user => user.CheckLogin);
-    console.log(User)
+
     useEffect( () => {
         async function fetchData() {
            await dispatch(FetchList(User.current.accessToken));
-           await dispatch(FetchChat({id: User.current.id, header : User.current.accessToken}))
+           await dispatch(FetchChat({id: User.current.id, header : User.current.accessToken}));
         }
         fetchData();
       }, []);

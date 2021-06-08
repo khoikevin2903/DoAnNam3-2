@@ -1,14 +1,15 @@
 import React, { useState, forwardRef } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useDispatch } from 'react-redux';
-import moment from 'moment';
+
 
 const FormDatePicker = (props) => {
 
-    const { HandleChange } = props;
+    const { HandleChange, dob } = props;
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date(dob));
+
+    console.log(startDate)
 
     const ExampleCustomInput = forwardRef(
         ({ value, onClick }, ref) => (
@@ -22,7 +23,10 @@ const FormDatePicker = (props) => {
     return (
         <DatePicker
             selected={startDate}
-            onChange={date => HandleChange(moment(date).format().substring(0,10))}
+            onChange={date => {
+                setStartDate(date);
+                HandleChange(date);
+            }}
             customInput={<ExampleCustomInput />}
         />
     );

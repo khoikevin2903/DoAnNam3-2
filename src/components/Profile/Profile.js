@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from "../Header/Header";
 import LeftList from "../LeftList/LeftList";
 import RightListFriend from "../RightListFriend/RightListFriend";
@@ -6,8 +7,23 @@ import HeaderProfile from './HeaderProfile';
 import Introduce from './Introduce';
 import MyPost from './MyPost';
 import Rating from './Rating';
+import {FetchPost} from '../../reducers/fetchMyPost';
 
 function Profile(props) {
+
+    const dispatch = useDispatch();
+
+    const User = useSelector(state => state.CheckLogin);
+
+    const Post = useSelector(state => state.MyPost);
+
+    useEffect(() => {
+        async function fetchData() {
+            await dispatch(FetchPost({username: User.current.username, header: User.current.accessToken}));
+          }
+          fetchData();
+      
+    }, [])
 
     return (
         <div className="w-full relative">
@@ -21,12 +37,12 @@ function Profile(props) {
                 <div className="w-4/6 px-4 pb-8 h-full bg-gray-100">
                     <HeaderProfile />
                     <div className="w-full flex pt-2">
-                        <div className="w-1/3 mr-2 mt-4">
+                        <div className="w-1/3 mr-4 mt-4">
                             <Introduce />
                             <Rating />
                         </div>
                         <div className="w-2/3">
-                            <MyPost />
+                            <MyPost arr={Post}/>
                         </div>
                     </div>
                 </div>
