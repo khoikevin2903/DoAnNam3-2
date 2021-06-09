@@ -22,7 +22,7 @@ function BgLogin(props) {
             </div>
             <div className="text-white absolute top-0 left-0 z-50 flex items-center justify-center h-full w-full">
                 <div className="w-7/12 break-words">
-                    <h1 className="font-bold text-4xl mb-10">Welcome To Noke</h1>
+                    <h1 className="font-bold text-2xl mb-10">Chào Mừng Bạn Đã Đến Với Transper</h1>
                     <p>Như là đã chứng kiến tất cả một đời sống hối hả.
                     Nhà tôi gần phố trong một lần đó.
                     Do là may mắn,
@@ -38,7 +38,7 @@ function BgLogin(props) {
                             onClick={() => dispatch(onLogin())}
                         >
                             <Link to="/login">
-                                Log In
+                                Đăng Nhập
                                 </Link>
                         </div>
                         <div className={ClassNames(
@@ -50,7 +50,7 @@ function BgLogin(props) {
                             onClick={() => dispatch(onRegister())}
                         >
                             <Link to="/register">
-                                Register
+                                Đăng Ký
                                 </Link>
                         </div>
                     </div>

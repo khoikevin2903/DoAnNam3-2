@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import ClassNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 function HeaderOtherProfile(props) {
 
-    const [option, setOption] = useState(1);
+    const {id, name} = props;
 
     return (
         <div className="bg-white relative rounded-md">
@@ -31,7 +32,7 @@ function HeaderOtherProfile(props) {
                     </li>
                 </ul>
                 <div className="text-2xl font-medium flex justify-center opacity-80">
-                    <h2>Khoi Kevin</h2>
+                    <h2>{name}</h2>
                 </div>
                 <div>
                     <ul className="flex items-center justify-center opacity-80">
@@ -50,36 +51,20 @@ function HeaderOtherProfile(props) {
                     </ul>
                 </div>
             </div>
-            <div className="flex items-center justify-between border-t border-gray-200 mx-8">
+            <div className="flex items-center justify-end py-3 border-t border-gray-200 mx-8">
                 <div className="flex items-center">
-                    <div className={ClassNames(
-                        "px-3 py-4 font-bold text-gray-500 cursor-pointer",
-                        {
-                            " border-b-2 border-blue-600 text-blue-600": option === 1
-                        }
-                    )} onClick={() => setOption(1)}>
-                        <p>Bài viết</p>
-                    </div>
-                    <div className={ClassNames(
-                        "px-3 py-4 font-bold text-gray-500 cursor-pointer",
-                        {
-                            " border-b-2 border-blue-600 text-blue-600": option === 2
-                        }
-                    )} onClick={() => setOption(2)}>
-                        <p>Giới thiệu</p>
-                    </div>
-                </div>
-                <div className="flex items-center">
-                    <button className="text-white p-2 mx-2 bg-blue-500 flex items-center justify-center rounded-lg font-bold">
+                    <Link to={`/chat/${id}`} className="text-white p-2 mx-2 bg-blue-500 flex items-center justify-center rounded-lg font-bold"
+                    
+                    >
                         <i className="fab fa-facebook-messenger pr-2"></i>
                         <p>Nhắn tin</p>
-                    </button>
+                    </Link>
                     <button className="text-black bg-gray-200 px-6 py-3 text-xs rounded-lg">
                         <i className="fas fa-ellipsis-h opacity-70"></i>
                     </button>
                 </div>
             </div>
-            <div className="absolute w-full flex justify-center items-center bottom-20">
+            <div className="absolute w-full flex justify-center items-center bottom-36">
                 <div className="bg-avatabig bg-no-repeat bg-cover h-36 w-36 border-green-300 rounded-full"></div>
             </div>
 

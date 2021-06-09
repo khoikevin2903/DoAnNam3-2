@@ -33,19 +33,20 @@ function ContactsGrid(props) {
         setPage({ ...page, page: num })
     }
 
-    const Rating = (num) => {
+    const Rating = (num,page) => {
         let result = [];
+        num =  (Math.random() * 3) + 2;
         const newNum = Math.round(num);
         for (let i = 1; i <= 5; i++) {
             if (i <= num) {
-                result.push(<i className="fas fa-star" key={i}></i>)
+                result.push(<i className="fas fa-star" key={Math.random() * 1000}></i>)
             }
         }
         if (num < newNum) {
-            result.push(<i className="fas fa-star-half-alt" key={newNum - 1}></i>)
+            result.push(<i className="fas fa-star-half-alt" key={Math.random() * 1000}></i>)
         }
         for (let i = newNum; i < 5; i++) {
-            result.push(<i className="far fa-star" key={i}></i>)
+            result.push(<i className="far fa-star" key={Math.random() * 1000}></i>)
         }
         return result;
     }
@@ -80,12 +81,12 @@ function ContactsGrid(props) {
                     <td>{item.email}</td>
                     <td className="pl-4">
                         <div style={{ color: '#bcd809' }} className="">
-                            {Rating(item.avgRating)}
+                            {Rating(item.avgRating, Math.random() * 10)}
                         </div>
                     </td>
                     <td className="flex h-full items-center justify-center">{item.numberOfPost}</td>
                     <td>
-                        <Link title="Trang cá nhân" to="/profile/anhkhoi">
+                        <Link title="Trang cá nhân" to={`/profile/${item.username}`}>
                             <i className="far fa-user-circle" alt="aaa"></i>
                         </Link>
                         <i className="far fa-trash-alt px-2 cursor-pointer" title="Xóa tài khoản"></i>

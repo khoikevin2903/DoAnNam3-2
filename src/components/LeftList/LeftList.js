@@ -27,7 +27,7 @@ function LeftList(props) {
                             dispatch(changeOption(item.option));
                         }}
                     >
-                        <div className={ClassNames('flex items-center rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === index, 'mt-3' : index !== 0 })}>
+                        <div className={ClassNames('mx-4 flex items-center rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === index, 'mt-3' : index !== 0 })}>
                             {item.icon}
                             {check && <p className="w-2/3 text-sm">{item.name}</p>}
                         </div>
@@ -49,7 +49,7 @@ function LeftList(props) {
                                 dispatch(changeOption(5));
                             }}
                         >
-                            <div className={ClassNames('flex items-center mt-3 rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === 5 })}>
+                            <div className={ClassNames('mx-4 flex items-center mt-3 rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === 5 })}>
                                 <i className="fas fa-list-ol w-1/3 py-4 px-6" />
                                 {check && <p className="w-2/3 text-sm">Quản lý người dùng</p>}
                             </div>
@@ -64,7 +64,7 @@ function LeftList(props) {
 
     return (
         <ul className={`h-screen shadow bg-white duration-500 ${check ? 'w-full' : 'w-1/3'}`}>
-            <div className="h-1/2">
+            <div className="h-1/2 pt-3">
                 {showList(LeftListOption)}
                 {ShowCheckRole()}
             </div>

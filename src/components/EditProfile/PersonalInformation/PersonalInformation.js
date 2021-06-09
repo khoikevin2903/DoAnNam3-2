@@ -9,14 +9,14 @@ function PersonalInformation(props) {
 
     const dispatch = useDispatch();
 
-    const Information = useSelector(state => state.Information);
+    //const Information = useSelector(state => state.Information);
 
     const User = useSelector(state => state.CheckLogin);
 
-    const [info, setInfo] = useState({...Information})
+    const [info, setInfo] = useState({...User.current.userInfo})
 
     useEffect(() => {
-            setInfo({...Information})
+            setInfo({...User.current.userInfo})
     }, [])
 
     const [check, setCheck] = useState();
@@ -68,6 +68,9 @@ function PersonalInformation(props) {
                 setMess('Password information failed !!!');
             }
         } catch (error) {
+            setLoading(false);
+            setCheck(false);
+            setMess('Password information failed !!!');
             console.log(error)
         }
     }

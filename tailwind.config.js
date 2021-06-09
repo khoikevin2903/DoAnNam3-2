@@ -121,7 +121,7 @@ module.exports = {
       backgroundImage: (theme) => ({
         loginImage: "url('./image/login.jpg')",
 		    registerImage: "url('./image/signup.jpg')",
-        logo: "url('./image/NOKE.png')",
+        logo: "url('./image/logo.png')",
         avataImage: "url('./image/avata.jpg')",
         bgChat: "url('./image/bgChat.jpg')",
         avataImage2: "url('./image/avata2.jpg')",

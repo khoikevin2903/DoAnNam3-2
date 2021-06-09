@@ -14,7 +14,7 @@ import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
 //import {changeOption} from './reducers/optionShow';
 import {fetchUser} from './reducers/FetchAllUser';
 import {defaultList} from './reducers/fetchListPost';
-import {getInfo} from './reducers/changeInformation';
+//import {onLogout} from './reducers/checkLogin';
 
 function App(props) {
 
@@ -26,7 +26,7 @@ function App(props) {
 		await dispatch(fetchUser(User.current.accessToken));
 	}
 
-	const checkRoles = useSelector(state => state.CheckLogin.current.roles);
+	const checkRoles = User.current.roles;
 	if(checkRoles){
 		checkRoles.map(item => {
 			if(item === "ROLE_ADMIN"){
@@ -41,6 +41,7 @@ function App(props) {
 	}
 	
 	useEffect(() => {
+		//dispatch(onLogout())
 		dispatch(defaultList());
 		FetchData();
 		dispatch(offModal());
@@ -49,9 +50,8 @@ function App(props) {
 		dispatch(defaultPlace());
 		dispatch(defaultPlaceName());
 		dispatch(onLogin());
-		dispatch(getInfo({header: User.current.accessToken, id: User.current.id}))
 		//dispatch(changeOption(0));
-	})
+	},[])
 
 	async function FetchData() {
 		const db = await new Promise((a, b) => {

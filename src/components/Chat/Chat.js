@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from "../Header/Header";
 import LeftList from "../LeftList/LeftList";
 import RightListFriend from "../RightListFriend/RightListFriend";
 import ScrollColor from './ScrollColor';
 import './Chat.scss';
-import {useSelector } from 'react-redux';
 import FormChat from './FormChat';
 import { Link } from 'react-router-dom';
-
+import {FetchConversation} from '../../reducers/conversation';
+import { useDispatch, useSelector } from 'react-redux';
+import {FetchChat} from '../../reducers/FetchListChat';
 
 function Chat(props) {
 
-    const {id} = props;
+    const dispatch = useDispatch();
+
+    const {id, check, name} = props;
 
     const User = useSelector(state => state.CheckLogin);
 
@@ -19,10 +22,31 @@ function Chat(props) {
 
     const list = useSelector(state => state.FetchListChat);
 
-    const [checkWhoMess, setCheckWhoMess] = useState(id);
+    const [checkWhoMess, setCheckWhoMess] = useState({
+        id: id, name: name
+    });
 
-    const HandleChangeMess = (id) => {
-        setCheckWhoMess(id);
+    const conversation = useSelector(state => state.Conversation);
+    
+    const [listMess, setListMess] = useState(conversation.listMess);
+
+    useEffect(() => {
+        async function fetchData() {
+           await setListMess([...conversation.listMess]);
+        }
+        fetchData();
+        
+    }, [id]);
+
+    const HandleChangeMess = (item) => {
+        setCheckWhoMess({
+            id: item.id,
+            name: item.name
+        });
+        dispatch(FetchConversation({
+            senderId: User.current.id, recipientId: Number.parseInt(item.id), header: User.current.accessToken
+        }));
+        dispatch(FetchChat({id: User.current.id, header: User.current.accessToken}));
     }
 
     const ShowListChat = (listChat) => {
@@ -32,7 +56,7 @@ function Chat(props) {
                 return (
                     <Link to={`/chat/${item.id}`} className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === index ? 'bg-gray-50' : 'bg-white'}`}
                         onClick={() => {
-                            HandleChangeMess(item.id);
+                            HandleChangeMess({id: item.id, name:`${item.lastName} ${item.firstName}`});
                         }} key={index}>
                         <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                         <div className="ml-4">
@@ -81,7 +105,10 @@ function Chat(props) {
                     </ScrollColor>
                 </div>
                 <div className="w-3/4 h-full bg-bgChat bg-cover bg-no-repeat h-full" style={{ borderRadius: "0px 10px 10px 0px" }}>
-                    <FormChat senderId={User.current.id} recipientId={checkWhoMess} />
+                    <FormChat arr={(listMess !== null && check === true ) ? listMess : []} 
+                    idChat={conversation.id !== null ? conversation.id : 0} 
+                    name={checkWhoMess.name !== null ? checkWhoMess.name : ""} 
+                    senderId={User.current.id} recipientId={checkWhoMess.id !== null ? checkWhoMess.id : id} />
                 </div>
             </div>
             <div className="w-1/6 w3-animate-right fixed right-0" style={{ animationDuration: "0.7s" }}>

@@ -15,7 +15,7 @@ function Header(props) {
 	const [option, setOption] = useState(false);
 
 	const Information = useSelector(state => state.Information);
-	
+
 	// const optionShow = useSelector(state => state.OptionShow);
 
 	const HandleChangeOption = () => {
@@ -28,9 +28,13 @@ function Header(props) {
 		<div className="w-full">
 			<div className="flex items-center justify-between p-2">
 				<div className="flex items-center">
-					<div className="bg-logo bg-cover bg-no-repeat cursor-pointer w-44 h-16"></div>
+					<div className="flex items-center mr-3">
+						<div className="ml-2 mr-3 bg-logo bg-cover bg-no-repeat cursor-pointer w-16 h-16"></div>
+						<h1 className="font-medium">TRANSPER</h1>
+					</div>
+
 					<div
-						className="mt-3 ml-4 cursor-pointer"
+						className="mt-3 ml-4 cursor-pointer h-full flex items-center justify-center mb-2"
 						onClick={() => {
 							if (check) dispatch(offList());
 							else dispatch(onList());

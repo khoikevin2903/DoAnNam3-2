@@ -3,20 +3,11 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import ClassNames from 'classnames';
 import { SOCKET_URL } from '../../constants/Socket_URL';
 import SockJsClient from 'react-stomp';
-import {FetchConversation} from '../../reducers/conversation';
-import { useDispatch, useSelector } from 'react-redux';
+
 
 function FormChat(props) {
 
-    const { senderId, recipientId} = props;
-
-    const dispatch = useDispatch();
-
-    const User = useSelector(state => state.CheckLogin);
-
-    const conversation = useSelector(state => state.Conversation);
-
-    console.log(recipientId);
+    const { senderId, recipientId, name, arr, idChat} = props;
 
     const SortArr = (array) => {
         return array.sort(function (a, b) {
@@ -24,17 +15,11 @@ function FormChat(props) {
         })
     }
 
-    const [message, setMessage] = useState(SortArr([...conversation.listMess]));
+    const [message, setMessage] = useState(SortArr([...arr]));
 
     useEffect(() => {
-        async function fetchData() {
-            dispatch(FetchConversation({
-                senderId: senderId, recipientId: Number.parseInt(recipientId), header: User.current.accessToken
-            }));
-           await setMessage(SortArr([...conversation.listMess]));
-        }
-        fetchData();
-      }, [recipientId]);
+        setMessage(SortArr([...arr]))
+    }, [recipientId])
 
     const [check, setCheck] = useState(false);
 
@@ -45,7 +30,7 @@ function FormChat(props) {
     };
 
     const [mess, setMess] = useState({
-        recipientId: recipientId,
+        recipientId: Number.parseInt(recipientId),
         senderId: senderId,
         content: ''
     });
@@ -61,13 +46,14 @@ function FormChat(props) {
         setMess({ ...mess, [name]: value });
     }
 
-    const sendMessage = (e) => {
+    const sendMessage = async (e) => {
         e.preventDefault();
-        clientRef.sendMessage('/app/chat', JSON.stringify({
-            recipientId: recipientId,
+        await clientRef.sendMessage('/app/chat', JSON.stringify({
+            recipientId: Number.parseInt(recipientId),
             senderId: senderId,
             content: mess.content
-        }))
+        }));
+        setMess({ ...mess, content: ''});
     }
 
     const elm = message.length > 0 ? message.map((item, index) => {
@@ -93,7 +79,7 @@ function FormChat(props) {
             <div className="flex items-center bg-white py-2 w-full justify-between">
                 <div className="flex items-center text-xl">
                     <div className="mr-4 bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
-                    <p className="opacity-80">a</p>
+                    <p className="opacity-80">{name}</p>
                 </div>
                 <div className="flex items-center">
                     <div className="text-blue-400 text-xl mx-1 p-3 bg-gray-50 rounded-lg flex items-center justify-center">
@@ -144,7 +130,7 @@ function FormChat(props) {
                 </button>
             </div>
              <SockJsClient url={SOCKET_URL}
-                topics={[`/topic/${conversation.id}/queue/messages`]}
+                topics={[`/topic/${idChat}/queue/messages`]}
                 onConnect={() => {
                     console.log("connected");
                 }}
@@ -152,8 +138,9 @@ function FormChat(props) {
                     console.log("Disconnected");
                 }}
                 onMessage={(msg) => {
-                    const newArr = message.push(msg);
-                    setMess({ ...mess, content: '' });
+                    console.log(msg)
+                    message.push(msg);
+                    setMessage([...message]);
                 }}
                 ref={(client) => {
                     clientRef = client;

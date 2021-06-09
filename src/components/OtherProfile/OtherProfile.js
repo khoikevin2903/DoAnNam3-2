@@ -1,30 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import LeftList from "../LeftList/LeftList";
 import RightListFriend from "../RightListFriend/RightListFriend";
 import HeaderOtherProfile from './HeaderOtherProfile';
-import {infoOtherUser, saveUser} from '../../reducers/otherUser';
+import axios from 'axios';
+import * as Config from '../../constants/Config';
 import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from "@reduxjs/toolkit";
+import Introduce from './Introduce';
+import MyPost from './MyPost';
+import Rating from './Rating';
+import {FetchPost} from '../../reducers/fetchMyPost';
 
-function OtherProfile({match}) {
-
-    const User = useSelector(user => user.CheckLogin);
-
-    const infoUser = useSelector(state => state.OtherUser);
-
-    console.log(infoUser)
+function OtherProfile({ match }) {
 
     const dispatch = useDispatch();
 
+    const token = useSelector(state => state.CheckLogin.current.accessToken);
+
+    const Post = useSelector(state => state.MyPost);
+
+    const [infoUser, setInfoUser] = useState({});
+
     useEffect(() => {
         async function fetchData() {
-            const actionResult = await dispatch(infoOtherUser({id: match.params.id, header : User.current.accessToken}));
-            const currentInfo = unwrapResult(actionResult);
-            dispatch(saveUser(currentInfo));
+            await axios.get(`${Config.API_URL}/api/user-information/uname/${match.params.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => setInfoUser(res.data));
+            await dispatch(FetchPost({username: match.params.id, header: token}));
         }
         fetchData();
-      }, []);
+    }, [token, match]);
+
+    console.log(infoUser)
 
     return <div className="w-full relative">
         <div className="shadow header fixed w-full bg-white">
@@ -34,8 +43,17 @@ function OtherProfile({match}) {
             <div className="fixed left-0 w-1/6">
                 <LeftList />
             </div>
-            <div className="w-4/6 px-4 pb-8 h-full">
-                <HeaderOtherProfile />
+            <div className="w-4/6 px-4 pb-8 h-full bg-gray-100">
+                <HeaderOtherProfile id={infoUser ? infoUser.id : ""} name={infoUser ? `${infoUser.lastName} ${infoUser.firstName}` : ""} />
+                <div className="w-full flex pt-2">
+                    <div className="w-1/3 mr-4 mt-4">
+                        <Introduce />
+                        <Rating />
+                    </div>
+                    <div className="w-2/3">
+                        <MyPost arr={Post} />
+                    </div>
+                </div>
             </div>
             <div className="w-1/6 w3-animate-right fixed right-0" style={{ animationDuration: "0.7s" }}>
                 <RightListFriend />

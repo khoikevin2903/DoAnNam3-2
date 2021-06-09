@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import OtherProfile from '../components/OtherProfile/OtherProfile';
 
-function OtherProfilePage(props) {
+function OtherProfilePage({match}) {
+
     const Active = useSelector(state => state.CheckLogin);
 
     if (Active.isAuth === false) {

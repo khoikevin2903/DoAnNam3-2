@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import * as Config from '../constants/Config';
+
 
 export const infoOtherUser = createAsyncThunk('user/login', async (params, thunkAPI) => {
-    const dataUser = await axios.get(`${Config.API_URL}/api/user-information/${params.id}`, {
-        headers: {
-            'Authorization': `Bearer ${params.header}`
-        }
-    }).then(res => res);
-    return dataUser;
+    console.log(params)
+    // const dataUser = await axios.get(`${Config.API_URL}/api/user-information/uname/${params.id}`, {
+    //     headers: {
+    //         'Authorization': `Bearer ${params.header}`
+    //     }
+    // }).then(res => thunkAPI.dispatch(saveUser(res.data)));
+    // return dataUser;
 })
 
 const otherUser = createSlice({

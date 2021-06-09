@@ -53,10 +53,14 @@ function LoginForm(props) {
                     setLoading(false);
                     dispatch(onLogin(currentUser.data));
                 } else {
+                    setLoading(false);
                     setMess(Mess.LOGIN_FAIL_INFO);
                     setCheck(false);
                 }
             } catch (error) {
+                setLoading(false);
+                setMess(Mess.LOGIN_FAIL_INFO);
+                setCheck(false);
                 console.log(error);
             }
 
@@ -78,7 +82,11 @@ function LoginForm(props) {
     return (
         <div className="flex items-center justify-center w-1/2">
             <div className="w-7/12">
-                <div className="bg-logo bg-no-repeat bg-cover w-44 h-16 cursor-pointer"></div>
+               
+ <div className="flex items-center">
+                    <div className="bg-logo bg-no-repeat bg-cover w-32 h-32 cursor-pointer"></div>
+                    <h1 className="px-3 text-xl font-medium">TRANSPER</h1>
+                </div>
                 <div className="pl-3 mt-20">
                     <h1 className="text-3xl font-semibold mb-1">Log In</h1>
                     <p className="opacity-50 font-medium">

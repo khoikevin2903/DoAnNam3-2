@@ -3,7 +3,7 @@ import './login-register.scss';
 import CallApi from '../../../util/callApi';
 import * as Mess from "./../../../constants/Message";
 import { useHistory } from 'react-router';
-import {onLogin} from './../../../reducers/login-register';
+import { onLogin } from './../../../reducers/login-register';
 import { useDispatch } from 'react-redux';
 
 function RegisterForm(props) {
@@ -82,7 +82,7 @@ function RegisterForm(props) {
                             username: "",
                             email: "",
                             password: ""
-                        })   
+                        })
                     } else {
                         setMess(res.data.message);
                         setCheck(false);
@@ -93,8 +93,8 @@ function RegisterForm(props) {
                     setCheck(false);
                     setLoading(false);
                     setMess(Mess.SIGNUP_FAIL_USER);
-                });  
-                return ac.abort();
+                });
+            return ac.abort();
         } else {
             setCheck(false);
             setLoading(false);
@@ -104,7 +104,10 @@ function RegisterForm(props) {
     return (
         <div className="flex items-center justify-center w-1/2">
             <div className="w-7/12">
-                <div className="bg-logo bg-no-repeat bg-cover w-44 h-16 cursor-pointer"></div>
+                <div className="flex items-center">
+                    <div className="bg-logo bg-no-repeat bg-cover w-32 h-32 cursor-pointer"></div>
+                    <h1 className="px-3 text-xl font-medium">TRANSPER</h1>
+                </div>
                 <div className="pl-3 mt-20">
                     <h1 className="text-3xl font-semibold mb-1">Register</h1>
                     <p className="opacity-50 font-medium">Create an account free and enjoy it</p>
