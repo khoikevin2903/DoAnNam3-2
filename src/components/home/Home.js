@@ -8,6 +8,7 @@ import MainStatus from "./MainStatus/MainStatus";
 import FormCreate from "./MainStatus/NewFeeds/FormCreatePost/FormCreate";
 import {FetchList} from '../../reducers/fetchListPost';
 import {FetchChat} from '../../reducers/FetchListChat';
+import {FetchChat2} from '../../reducers/FetchListChat2';
 
 import './Home.scss';
 
@@ -21,6 +22,7 @@ function Home(props) {
         async function fetchData() {
            await dispatch(FetchList(User.current.accessToken));
            await dispatch(FetchChat({id: User.current.id, header : User.current.accessToken}));
+           await dispatch(FetchChat2({id: User.current.id, header : User.current.accessToken}));
         }
         fetchData();
       }, []);

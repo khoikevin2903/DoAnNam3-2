@@ -6,15 +6,15 @@ import ScrollColor from './ScrollColor';
 import './Chat.scss';
 import FormChat from './FormChat';
 import { Link } from 'react-router-dom';
-import {FetchConversation} from '../../reducers/conversation';
+import { FetchConversation } from '../../reducers/conversation';
 import { useDispatch, useSelector } from 'react-redux';
-import {FetchChat} from '../../reducers/FetchListChat';
+import { FetchChat } from '../../reducers/FetchListChat';
 
 function Chat(props) {
 
     const dispatch = useDispatch();
 
-    const {id, check, name} = props;
+    const { id, check, name, arr } = props;
 
     const User = useSelector(state => state.CheckLogin);
 
@@ -27,15 +27,11 @@ function Chat(props) {
     });
 
     const conversation = useSelector(state => state.Conversation);
-    
-    const [listMess, setListMess] = useState(conversation.listMess);
+
+    const [listMess, setListMess] = useState(arr);
 
     useEffect(() => {
-        async function fetchData() {
-           await setListMess([...conversation.listMess]);
-        }
-        fetchData();
-        
+        setListMess(arr);
     }, [id]);
 
     const HandleChangeMess = (item) => {
@@ -46,7 +42,7 @@ function Chat(props) {
         dispatch(FetchConversation({
             senderId: User.current.id, recipientId: Number.parseInt(item.id), header: User.current.accessToken
         }));
-        dispatch(FetchChat({id: User.current.id, header: User.current.accessToken}));
+        dispatch(FetchChat({ id: User.current.id, header: User.current.accessToken }));
     }
 
     const ShowListChat = (listChat) => {
@@ -56,7 +52,7 @@ function Chat(props) {
                 return (
                     <Link to={`/chat/${item.id}`} className={`flex items-center py-3 border-t border-gray-200 cursor-pointer ${checkWhoMess === index ? 'bg-gray-50' : 'bg-white'}`}
                         onClick={() => {
-                            HandleChangeMess({id: item.id, name:`${item.lastName} ${item.firstName}`});
+                            HandleChangeMess({ id: item.id, name: `${item.lastName} ${item.firstName}` });
                         }} key={index}>
                         <div className="bg-avataImage2 bg-no-repeat bg-cover h-14 w-14 rounded-lg" />
                         <div className="ml-4">
@@ -105,10 +101,13 @@ function Chat(props) {
                     </ScrollColor>
                 </div>
                 <div className="w-3/4 h-full bg-bgChat bg-cover bg-no-repeat h-full" style={{ borderRadius: "0px 10px 10px 0px" }}>
-                    <FormChat arr={(listMess !== null && check === true ) ? listMess : []} 
-                    idChat={conversation.id !== null ? conversation.id : 0} 
-                    name={checkWhoMess.name !== null ? checkWhoMess.name : ""} 
-                    senderId={User.current.id} recipientId={checkWhoMess.id !== null ? checkWhoMess.id : id} />
+                    <FormChat arr={(listMess !== null && check === true) ? listMess : []}
+                        idChat={conversation.id !== null ? conversation.id : 0}
+                        name={checkWhoMess.name !== null ? checkWhoMess.name : ""}
+                        senderId={User.current.id} recipientId={checkWhoMess.id !== null ? checkWhoMess.id : id} 
+                        checkOther={check}
+                        header={User.current.accessToken}
+                        />
                 </div>
             </div>
             <div className="w-1/6 w3-animate-right fixed right-0" style={{ animationDuration: "0.7s" }}>

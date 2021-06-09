@@ -109,24 +109,24 @@ function RegisterForm(props) {
                     <h1 className="px-3 text-xl font-medium">TRANSPER</h1>
                 </div>
                 <div className="pl-3 mt-20">
-                    <h1 className="text-3xl font-semibold mb-1">Register</h1>
-                    <p className="opacity-50 font-medium">Create an account free and enjoy it</p>
+                    <h1 className="text-3xl font-semibold mb-1">Đăng ký</h1>
+                    <p className="opacity-50 font-medium">Tạo một tài khoản miễn phí và tận hưởng nó</p>
                 </div>
                 <form action="" method="post" className="pl-3 mt-14">
                     <div className="animate-fade-in-up-0 border-b border-gray-200 flex items-center justify-between rounded py-1 input">
-                        <input type="text" placeholder="Name" value={account.name} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="name" />
+                        <input type="text" placeholder="Tên" value={account.name} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="name" />
                         <i className="fas fa-signature opacity-50 mr-1"></i>
                     </div>
                     <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 input mt-4">
-                        <input type="text" placeholder="Email Address" value={account.email} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="email" />
+                        <input type="text" placeholder="Địa chỉ email" value={account.email} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="email" />
                         <i className="far fa-envelope opacity-50 mr-2"></i>
                     </div>
                     <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 input mt-4">
-                        <input type="text" placeholder="Username" value={account.username} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="username" />
+                        <input type="text" placeholder="Tên đăng nhập" value={account.username} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="username" />
                         <i className="far fa-user opacity-50 mr-2"></i>
                     </div>
                     <div className="animate-fade-in-up-2 border-b border-gray-200 flex items-center justify-between rounded py-1 mt-4 input">
-                        <input type="password" placeholder="Password" value={account.password} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="password" />
+                        <input type="password" placeholder="Mật khẩu" value={account.password} onChange={HandleChange} className="pl-2 w-full mr-2 py-1" name="password" />
                         <i className="fas fa-lock opacity-50 mr-2"></i>
                     </div>
                     {!check && (
@@ -137,7 +137,7 @@ function RegisterForm(props) {
                         onClick={HandleSubmit}
                         className="duration-300 animate-fade-in-up-3 text-xl flex items-center cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700 mt-8"
                     >
-                        <span>Registe</span>
+                        <span>Tạo tài khoản</span>
                         {loading && (
                             <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
                         )}

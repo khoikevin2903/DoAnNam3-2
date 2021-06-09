@@ -33,8 +33,6 @@ function OtherProfile({ match }) {
         fetchData();
     }, [token, match]);
 
-    console.log(infoUser)
-
     return <div className="w-full relative">
         <div className="shadow header fixed w-full bg-white">
             <Header />

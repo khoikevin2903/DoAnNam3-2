@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import * as Config from '../constants/Config';
-import {userLogin} from './checkLogin'; 
 
 export const changeInfo = createAsyncThunk('edit/changeInfo', async (params, thunkAPI) => {
     const dataUser = await axios.put(`${Config.API_URL}/api/user-information/modify`, {

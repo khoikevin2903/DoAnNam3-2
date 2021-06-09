@@ -3,23 +3,25 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import ClassNames from 'classnames';
 import { SOCKET_URL } from '../../constants/Socket_URL';
 import SockJsClient from 'react-stomp';
+import { useDispatch } from 'react-redux';
+import { FetchChat } from '../../reducers/FetchListChat';
+import { FetchChat2 } from '../../reducers/FetchListChat2';
 
 
 function FormChat(props) {
 
-    const { senderId, recipientId, name, arr, idChat} = props;
+    const dispatch = useDispatch();
 
-    const SortArr = (array) => {
-        return array.sort(function (a, b) {
-            return a.createdAt.localeCompare(b.createdAt);
-        })
-    }
+    const { senderId, recipientId, name, arr, idChat, checkOther, header } = props;
 
-    const [message, setMessage] = useState(SortArr([...arr]));
+    const [message, setMessage] = useState([]);
 
     useEffect(() => {
-        setMessage(SortArr([...arr]))
-    }, [recipientId])
+        setMessage(arr);
+        if (!checkOther) {
+            dispatch(FetchChat({ id: senderId, header: header }));
+        }
+    }, [idChat])
 
     const [check, setCheck] = useState(false);
 
@@ -29,11 +31,7 @@ function FormChat(props) {
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     };
 
-    const [mess, setMess] = useState({
-        recipientId: Number.parseInt(recipientId),
-        senderId: senderId,
-        content: ''
-    });
+    const [mess, setMess] = useState('');
 
     useEffect(scrollToBottom, [mess]);
 
@@ -41,32 +39,31 @@ function FormChat(props) {
 
     const HandleChangeMess = (e) => {
         const target = e.target;
-        const name = target.name;
         const value = target.value;
-        setMess({ ...mess, [name]: value });
+        setMess(value);
     }
 
     const sendMessage = async (e) => {
         e.preventDefault();
-        await clientRef.sendMessage('/app/chat', JSON.stringify({
-            recipientId: Number.parseInt(recipientId),
-            senderId: senderId,
-            content: mess.content
-        }));
-        setMess({ ...mess, content: ''});
+        if (mess !== "") {
+            await clientRef.sendMessage('/app/chat', JSON.stringify({
+                recipientId: Number.parseInt(recipientId),
+                senderId: senderId,
+                content: mess
+            }));
+        }
     }
 
     const elm = message.length > 0 ? message.map((item, index) => {
-        if(item != null)
         return (
             <div className={ClassNames("py-2 px-3", {
                 "text-right": item.senderId === senderId,
                 "flex items-center": item.senderId !== senderId
             })} key={index}>
-                {(item.senderId !== senderId) ? 
-                <div className="bg-avataImage2 bg-no-repeat bg-cover h-8 w-8 rounded-full mr-2"></div> 
+                {(item.senderId !== senderId) ?
+                    <div className="bg-avataImage2 bg-no-repeat bg-cover h-8 w-8 rounded-full mr-2"></div>
                     : <div className="w-8 mr-2"></div>
-            }
+                }
                 <div>
                     <span className="py-2 px-4 w-auto bg-blue-400 text-white rounded-full">{item.content}</span>
                 </div>
@@ -92,7 +89,7 @@ function FormChat(props) {
                         <ion-icon name="trash-outline"></ion-icon>
                     </div>
                     <div className="text-blue-400 text-xl mx-1 p-3 bg-gray-50 rounded-lg flex items-center justify-center"
-                        onClick = {() => setCheck(true)}
+                        onClick={() => setCheck(true)}
                     >
                         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </div>
@@ -115,7 +112,7 @@ function FormChat(props) {
                     <i className="fas fa-paperclip"></i>
                 </div>
                 <input
-                    value={mess.content}
+                    value={mess}
                     onChange={HandleChangeMess}
                     name="content"
                     type="text"
@@ -129,7 +126,7 @@ function FormChat(props) {
                     <span>send</span>
                 </button>
             </div>
-             <SockJsClient url={SOCKET_URL}
+            <SockJsClient url={SOCKET_URL}
                 topics={[`/topic/${idChat}/queue/messages`]}
                 onConnect={() => {
                     console.log("connected");
@@ -137,15 +134,18 @@ function FormChat(props) {
                 onDisconnect={() => {
                     console.log("Disconnected");
                 }}
-                onMessage={(msg) => {
+                onMessage={async (msg) => {
                     console.log(msg)
                     message.push(msg);
-                    setMessage([...message]);
+                    setMess('');
+                    await dispatch(FetchChat2({ id: senderId, header: header }));
+                    await dispatch(FetchChat({ id: senderId, header: header }));
+                    //setMessage([...message]);
                 }}
                 ref={(client) => {
                     clientRef = client;
                 }}
-            /> 
+            />
         </form>
     );
 }

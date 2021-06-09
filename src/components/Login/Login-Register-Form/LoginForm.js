@@ -88,16 +88,16 @@ function LoginForm(props) {
                     <h1 className="px-3 text-xl font-medium">TRANSPER</h1>
                 </div>
                 <div className="pl-3 mt-20">
-                    <h1 className="text-3xl font-semibold mb-1">Log In</h1>
+                    <h1 className="text-3xl font-semibold mb-1">Đăng nhập</h1>
                     <p className="opacity-50 font-medium">
-                        Log in to continue in our website
+                        Đăng nhập để tiếp tục với trang web
                     </p>
                 </div>
                 <form action="" method="post" className="pl-3 mt-14">
                     <div className="animate-fade-in-up-0 border-b border-gray-200 flex items-center justify-between rounded py-1 input">
                         <input
                             type="text"
-                            placeholder="Username"
+                            placeholder="Tên đăng nhập"
                             className="pl-2 w-full mr-2 py-1"
                             name="username"
                             value={login.username}
@@ -108,7 +108,7 @@ function LoginForm(props) {
                     <div className="animate-fade-in-up-1 border-b border-gray-200 flex items-center justify-between rounded py-1 mt-4 input">
                         <input
                             type="password"
-                            placeholder="Password"
+                            placeholder="Mật khẩu"
                             className="pl-2 w-full mr-2 py-1"
                             name="password"
                             value={login.password}
@@ -125,13 +125,13 @@ function LoginForm(props) {
                             onClick={handleSubmit}
                             className="duration-300 text-xl flex items-center cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700"
                         >
-                            <span>Log in</span>
+                            <span>Đăng nhập</span>
                             {loading && (
                                 <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
                             )}
                         </button>
                         <p className="font-medium opacity-40 cursor-pointer hover:opacity-90 transition duration-700">
-                            Forgot Password
+                            Quên mật khẩu
                         </p>
                     </div>
                     <div className="mt-10 flex items-center justify-center">
