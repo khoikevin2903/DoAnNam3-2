@@ -139,15 +139,16 @@ function Header(props) {
 									<div className="flex justify-center items-center text-white bg-blue-400 py-2 mx-24 rounded-lg opacity-90 hover:opacity-100 duration-500"
 										onClick={() => {
 											dispatch(changeOption(0));
-											axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
-												headers: {
-													'Authorization': `Bearer ${User.current.accessToken}`
-												}
-											}).then(res => {
-												if (res.status === 200) {
-													dispatch(onLogout());
-												}
-											});
+											dispatch(onLogout());
+											// axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
+											// 	headers: {
+											// 		'Authorization': `Bearer ${User.current.accessToken}`
+											// 	}
+											// }).then(res => {
+											// 	if (res.status === 200) {
+											// 		dispatch(onLogout());
+											// 	}
+											// });
 										}}
 									>
 										<p>Đăng xuất</p>
