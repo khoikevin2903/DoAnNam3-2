@@ -5,6 +5,8 @@ import * as Mess from "./../../../constants/Message";
 import { onLogin, userLogin } from './../../../reducers/checkLogin';
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import axios from 'axios';
+import * as Config from '../../../constants/Config';
 
 function LoginForm(props) {
 
@@ -51,7 +53,12 @@ function LoginForm(props) {
                 if (currentUser.status === 200) {
                     setCheck(true);
                     setLoading(false);
-                    dispatch(onLogin(currentUser.data));
+                    await dispatch(onLogin(currentUser.data));
+                    axios.get(`${Config.API_URL}/api/active/connect/${login.username}`, {
+                        headers: {
+                            'Authorization': `Bearer ${currentUser.data.accessToken}`
+                        }
+                    }).then(res => res);
                 } else {
                     setLoading(false);
                     setMess(Mess.LOGIN_FAIL_INFO);
@@ -82,8 +89,8 @@ function LoginForm(props) {
     return (
         <div className="flex items-center justify-center w-1/2">
             <div className="w-7/12">
-               
- <div className="flex items-center">
+
+                <div className="flex items-center">
                     <div className="bg-logo bg-no-repeat bg-cover w-32 h-32 cursor-pointer"></div>
                     <h1 className="px-3 text-xl font-medium">TRANSPER</h1>
                 </div>

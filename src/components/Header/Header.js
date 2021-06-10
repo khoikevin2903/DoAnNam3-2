@@ -5,11 +5,15 @@ import { onLogout } from '../../reducers/checkLogin';
 import { useHistory } from "react-router";
 import { changeOption } from '../../reducers/optionShow';
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import * as Config from '../../constants/Config';
 
 
 function Header(props) {
 
 	const history = useHistory();
+
+	const User = useSelector(state => state.CheckLogin);
 
 	const check = useSelector((state) => state.LeftList);
 
@@ -131,14 +135,22 @@ function Header(props) {
 										<p className="text-sm opacity-50">Modify your personal details</p>
 									</div>
 								</div>
-								<div className="cursor-pointer py-8 bg-white cursor-pointer rounded-b-md">
-									<div className="flex justify-center items-center text-white bg-blue-400 py-1 mx-24 rounded-lg opacity-90 hover:opacity-100 duration-500"
+								<div className="cursor-pointer py-4 bg-white cursor-pointer rounded-b-md">
+									<div className="flex justify-center items-center text-white bg-blue-400 py-2 mx-24 rounded-lg opacity-90 hover:opacity-100 duration-500"
 										onClick={() => {
 											dispatch(changeOption(0));
-											dispatch(onLogout());
+											axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
+												headers: {
+													'Authorization': `Bearer ${User.current.accessToken}`
+												}
+											}).then(res => {
+												if (res.status === 200) {
+													dispatch(onLogout());
+												}
+											});
 										}}
 									>
-										<p>Sing out</p>
+										<p>Đăng xuất</p>
 										<i className="fas fa-sign-out-alt ml-2"></i>
 									</div>
 								</div>

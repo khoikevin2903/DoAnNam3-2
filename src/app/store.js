@@ -24,6 +24,7 @@ import {applyMiddleware} from 'redux';
 import MyPost from './../reducers/fetchMyPost';
 import Information from './../reducers/changeInformation';
 import FetchListChat2 from './../reducers/FetchListChat2';
+import ActiveUser from './../reducers/ActiveUser';
 
 
 const rootReducer = combineReducers({
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
     MyPost: MyPost,
     Information: Information,
     FetchListChat2: FetchListChat2,
+    ActiveUser: ActiveUser,
 });
 
 const persistConfig = {

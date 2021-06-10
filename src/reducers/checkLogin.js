@@ -3,7 +3,6 @@ import axios from 'axios';
 import * as Config from '../constants/Config';
 
 export const userLogin = createAsyncThunk('user/login', async (params, thunkAPI) => {
-    console.log('login')
     const dataUser = await axios.post(`${Config.API_URL}/api/auth/signin`, {
         'username': params.username, 'password': params.password
     }).then(res => res);
