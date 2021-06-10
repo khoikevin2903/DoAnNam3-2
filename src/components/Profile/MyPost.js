@@ -51,7 +51,7 @@ function MyPost(props) {
                                 <div className="bg-avataImage h-12 w-12 bg-cover rounded-full mr-6 cursor-pointer">
                                 </div>
                                 <div>
-                                    <p className="font-bold">{`${item.creatorUname} `}<span className="font-normal">đã thêm lịch trình mới - Phương tiện : </span>{item.transport !== null ? item.transport : 'Xe máy'}</p>
+                                    <p className="font-bold">{`${item.infoUser.lastName} ${item.infoUser.firstName} `}<span className="font-normal">đã thêm lịch trình mới - Phương tiện : </span>{item.transport !== null ? item.transport : 'Xe máy'}</p>
                                     <div className="text-xs text-gray-500 flex items-center">
                                         <p>{timeSince(Date.parse(item.createAt))}</p>
                                         <p className="mx-1"> · </p>

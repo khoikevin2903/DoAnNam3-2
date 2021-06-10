@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onList, offList } from "../../reducers/leftList";
 import { onLogout } from '../../reducers/checkLogin';
@@ -19,13 +19,17 @@ function Header(props) {
 
 	const history = useHistory();
 
-	const User = useSelector(state => state.CheckLogin);
+	const InfoUser = useSelector(state => state.CheckLogin.current.userInfo);
+
+	const token = useSelector(state => state.CheckLogin.current.accessToken);
+
+	const username = useSelector(state => state.CheckLogin.current.username);
 
 	const check = useSelector((state) => state.LeftList);
 
 	const [option, setOption] = useState(false);
 
-	const Information = useSelector(state => state.Information);
+	useEffect(() => {},[token])
 
 	// const optionShow = useSelector(state => state.OptionShow);
 
@@ -65,7 +69,7 @@ function Header(props) {
 				<div className="flex items-center">
 					<ul className="flex items-center">
 						<li className="bg-avataImage h-12 w-12 bg-cover rounded-full cursor-pointer"></li>
-						<li className="mx-4 cursor-pointer">{`${Information.lastName} ${Information.firstName}`}</li>
+						<li className="mx-4 cursor-pointer">{`${InfoUser.lastName} ${InfoUser.firstName}`}</li>
 						<Link to="/" className="text-blue-300 mx-4 cursor-pointer" onClick={() => dispatch(changeOption(0))}>
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -128,8 +132,8 @@ function Header(props) {
 										<i className="far fa-user text-base bg-gray-200 py-4 px-4 rounded-md" />
 									</div>
 									<div className="w=4/5 px-6">
-										<h5 className="text-base opacity-90">Account Settings</h5>
-										<p className="text-sm opacity-50">Manage your account parameters</p>
+										<h5 className="text-base opacity-90">Cài đặt tài khoản</h5>
+										<p className="text-sm opacity-50">Quản lý thông tin tài khoản</p>
 									</div>
 								</div>
 								<div className="cursor-pointer bg-white py-4 px-3 flex items-center border-b border-gray-50 hover:bg-gray-50 duration-500">
@@ -137,17 +141,17 @@ function Header(props) {
 										<i className="fas fa-lock text-base bg-gray-50 py-4 px-4 rounded-md" />
 									</div>
 									<div className="w=4/5 px-6">
-										<h5 className="text-base opacity-90">Privacy Settings</h5>
-										<p className="text-sm opacity-50">Modify your personal details</p>
+										<h5 className="text-base opacity-90">Cài đặt bảo mật</h5>
+										<p className="text-sm opacity-50">Cài đặt chi tiết thông tin</p>
 									</div>
 								</div>
 								<div className="cursor-pointer py-4 bg-white cursor-pointer rounded-b-md">
 									<div className="flex justify-center items-center text-white bg-blue-400 py-2 mx-24 rounded-lg opacity-90 hover:opacity-100 duration-500"
 										onClick={() => {
 											dispatch(changeOption(0));
-											axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
+											axios.get(`${Config.API_URL}/api/active/disconnect/${username}`, {
 												headers: {
-													'Authorization': `Bearer ${User.current.accessToken}`
+													'Authorization': `Bearer ${token}`
 												}
 											}).then(res => {
 												dispatch(offModal());

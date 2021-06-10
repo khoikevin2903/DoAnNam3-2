@@ -70,8 +70,8 @@ function Post(props) {
                                         </div>
                                         <div>
                                             <p className="font-bold py-3 text-xl">{`${item.infoUser.lastName} ${item.infoUser.firstName}`}</p>
-                                            <p className="opacity-75">{`Thành Phố: ${item.infoUser.address}`}</p>
-                                            <p className="opacity-75">{`CMND : ${item.infoUser.idCardNumber}`}</p>
+                                            <p className="opacity-75 text-sm">{`Thành Phố: ${item.infoUser.address}`}</p>
+                                            <p className="opacity-75 text-sm">{`CMND : ${item.infoUser.idCardNumber}`}</p>
                                         </div>
                                     </div>
                                     <div className="flex justify-end items-center mt-2">

@@ -8,10 +8,11 @@ import { onLogin } from './reducers/login-register';
 import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
 //import {changeOption} from './reducers/optionShow';
 import { fetchUser } from './reducers/FetchAllUser';
-//import {onLogout} from './reducers/checkLogin';
+//import { onLogout } from './reducers/checkLogin';
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import axios from 'axios';
+import * as Config from './constants/Config';
 
 
 function App(props) {
@@ -23,13 +24,15 @@ function App(props) {
 
 	const dispatch = useDispatch();
 
-	const User = useSelector(user => user.CheckLogin);
 
 	async function fetchData() {
-		await dispatch(fetchUser(User.current.accessToken));
+		await dispatch(fetchUser(accessToken));
 	}
+	const accessToken = useSelector(state => state.CheckLogin.current.accessToken);
 
-	const checkRoles = User.current.roles;
+	const username = useSelector(state => state.CheckLogin.current.username);
+
+	const checkRoles = useSelector(state => state.CheckLogin.current.roles);
 	if (checkRoles) {
 		checkRoles.map(item => {
 			if (item === "ROLE_ADMIN") {
@@ -44,15 +47,15 @@ function App(props) {
 	}
 
 	const doSomeThing = () => {
-		axios.get(`https://chatchit69.herokuapp.com/api/active/disconnect/${User.username}`, {
+		axios.get(`https://chatchit69.herokuapp.com/api/active/disconnect/${username}`, {
 			headers: {
-				'Authorization': `Bearer ${User.current.accessToken}`
+				'Authorization': `Bearer ${accessToken}`
 			}
 		}).then(res => res);
 	}
 
 	const setupBeforeUnLoad = () => {
-		window.addEventListener('beforeunload',(e) => {
+		window.addEventListener('beforeunload', (e) => {
 			e.preventDefault();
 			return doSomeThing();
 		})
@@ -60,11 +63,16 @@ function App(props) {
 
 	useEffect(() => {
 		setupBeforeUnLoad();
-		//dispatch(onLogout())
 		FetchData();
 		dispatch(onLogin());
+		axios.get(`${Config.API_URL}/api/active/connect/${username}`, {
+			headers: {
+				'Authorization': `Bearer ${accessToken}`
+			}
+		}).then(res => res);
+		// dispatch(onLogout())
 		//dispatch(changeOption(0));
-	}, [])
+	}, [accessToken])
 
 	async function FetchData() {
 		const db = await new Promise((a, b) => {

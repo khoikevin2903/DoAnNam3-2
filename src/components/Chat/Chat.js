@@ -18,7 +18,7 @@ function Chat(props) {
 
     const User = useSelector(state => state.CheckLogin);
 
-    const Info = useSelector(state => state.Information);
+    const Info = useSelector(state => state.CheckLogin.current.userInfo);
 
     const list = useSelector(state => state.FetchListChat);
 
@@ -81,7 +81,7 @@ function Chat(props) {
                             <div className="bg-avataImage bg-no-repeat bg-cover h-16 w-16 rounded-lg" />
                             <div className="ml-4">
                                 <p className="opacity-80">{`${Info.lastName} ${Info.firstName}`}</p>
-                                <p className="opacity-60">Web Designer</p>
+                                <p className="opacity-60">{User.current.username}</p>
 
                             </div>
                         </div>

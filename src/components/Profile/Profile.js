@@ -13,17 +13,18 @@ function Profile(props) {
 
     const dispatch = useDispatch();
 
-    const User = useSelector(state => state.CheckLogin);
+    const name = useSelector(state => state.CheckLogin.current.username);
+    const token = useSelector(state => state.CheckLogin.current.accessToken);
 
     const Post = useSelector(state => state.MyPost);
 
     useEffect(() => {
         async function fetchData() {
-            await dispatch(FetchPost({username: User.current.username, header: User.current.accessToken}));
+            await dispatch(FetchPost({username: name, header: token}));
           }
           fetchData();
       
-    }, [])
+    }, [token])
 
     return (
         <div className="w-full relative">

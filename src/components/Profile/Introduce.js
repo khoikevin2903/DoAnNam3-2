@@ -5,8 +5,6 @@ function Introduce(props) {
 
     const User = useSelector(state => state.CheckLogin.current.userInfo);
 
-    console.log(User)
-
     return (
         <div className="p-3 bg-white rounded-lg shadow">
             <h1 className="text-2xl font-bold">Giới thiệu</h1>

@@ -8,8 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import * as Config from '../../../constants/Config';
 import {fetchUser} from '../../../reducers/FetchAllUser';
+import { useAlert } from "react-alert";
 
 function ContactsGrid(props) {
+
+    const alert = useAlert();
 
     const dispatch = useDispatch();
 
@@ -58,8 +61,8 @@ function ContactsGrid(props) {
             }}).then(res => {
                 if(res.status === 200){
                     if(item.block === true){
-                        alert('Mở khóa người dùng thành công !');
-                    } else alert('Khóa người dùng thành công !');
+                        alert.success('Mở khóa người dùng thành công !');
+                    } else alert.error('Khóa người dùng thành công !');
                     dispatch(fetchUser(User.current.accessToken));
                     ListUser = SortArr([...ListUser]);
                 }

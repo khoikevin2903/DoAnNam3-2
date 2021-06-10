@@ -1,7 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 
 function HeaderProfile(props) {
+
+    const User = useSelector(state => state.CheckLogin.current.userInfo);
+
     return (
         <div className="bg-white relative rounded-md shadow">
             <div className="bg-bgProfile bg-no-repeat bg-cover h-64 w-full rounded-b-md relative">
@@ -38,7 +42,7 @@ function HeaderProfile(props) {
                     </li>
                 </ul>
                 <div className="text-2xl font-medium flex justify-center opacity-80">
-                    <h2>Khoi Kevin</h2>
+                    <h2>{`${User.lastName} ${User.firstName}`}</h2>
                 </div>
                 <div>
                     <ul className="flex items-center justify-center opacity-80">
