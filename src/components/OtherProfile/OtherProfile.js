@@ -45,7 +45,7 @@ function OtherProfile({ match }) {
                 <HeaderOtherProfile id={infoUser ? infoUser.id : ""} name={infoUser ? `${infoUser.lastName} ${infoUser.firstName}` : ""} />
                 <div className="w-full flex pt-2">
                     <div className="w-1/3 mr-4 mt-4">
-                        <Introduce />
+                        <Introduce arr={infoUser}/>
                         <Rating />
                     </div>
                     <div className="w-2/3">

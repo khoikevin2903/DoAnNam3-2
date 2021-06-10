@@ -7,6 +7,12 @@ import { changeOption } from '../../reducers/optionShow';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import * as Config from '../../constants/Config';
+import { defaultDistrictsStart } from '../../reducers/districtsStart';
+import { defaultDistrictsEnd } from '../../reducers/districtsEnd';
+import { defaultPlace } from '../../reducers/infoPlace';
+import { defaultPlaceName } from '../../reducers/infoPlaceName';
+import { offModal } from '../../reducers/showModal';
+import { defaultList } from '../../reducers/fetchListPost';
 
 
 function Header(props) {
@@ -139,16 +145,19 @@ function Header(props) {
 									<div className="flex justify-center items-center text-white bg-blue-400 py-2 mx-24 rounded-lg opacity-90 hover:opacity-100 duration-500"
 										onClick={() => {
 											dispatch(changeOption(0));
-											dispatch(onLogout());
-											// axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
-											// 	headers: {
-											// 		'Authorization': `Bearer ${User.current.accessToken}`
-											// 	}
-											// }).then(res => {
-											// 	if (res.status === 200) {
-											// 		dispatch(onLogout());
-											// 	}
-											// });
+											axios.get(`${Config.API_URL}/api/active/disconnect/${User.username}`, {
+												headers: {
+													'Authorization': `Bearer ${User.current.accessToken}`
+												}
+											}).then(res => {
+												dispatch(offModal());
+												dispatch(onLogout())
+												dispatch(defaultList());
+												dispatch(defaultDistrictsStart());
+												dispatch(defaultDistrictsEnd());
+												dispatch(defaultPlace());
+												dispatch(defaultPlaceName());
+											});
 										}}
 									>
 										<p>Đăng xuất</p>

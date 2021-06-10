@@ -18,16 +18,18 @@ function LeftList(props) {
     const checkRoles = useSelector(state => state.CheckLogin.current.roles);
 
     const showList = (list) => {
+        let id = '0';
         let result = null;
         if (list.length > 0) {
             result = list.map((item, index) => {
+                if (ListChat.length > 0) id = ListChat[0].id + "";
                 return (
-                    <Link to={(item.option === 1 && ListChat) ? `${item.path}/${ListChat[0].id}` : item.path} className="cursor-pointer" key={index}
+                    <Link to={(item.option === 1) ? `${item.path}/${id}` : item.path} className="cursor-pointer" key={index}
                         onClick={() => {
                             dispatch(changeOption(item.option));
                         }}
                     >
-                        <div className={ClassNames('mx-4 flex items-center rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === index, 'mt-3' : index !== 0 })}>
+                        <div className={ClassNames('mx-4 flex items-center rounded-md text-gray-500 hover:text-blue-300', { 'bg-gray-100 text-blue-400': options === index, 'mt-3': index !== 0 })}>
                             {item.icon}
                             {check && <p className="w-2/3 text-sm">{item.name}</p>}
                         </div>

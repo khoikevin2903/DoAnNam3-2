@@ -4,8 +4,11 @@ import { changeInfo } from '../../../reducers/changeInformation';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { useAlert } from "react-alert";
 
 function PersonalInformation(props) {
+
+    const alert = useAlert();
 
     const dispatch = useDispatch();
 
@@ -18,10 +21,6 @@ function PersonalInformation(props) {
     useEffect(() => {
             setInfo({...User.current.userInfo})
     }, [])
-
-    const [check, setCheck] = useState();
-
-    const [mess, setMess] = useState();
 
     const [loading, setLoading] = useState(false);
 
@@ -57,21 +56,16 @@ function PersonalInformation(props) {
                 header: User.current.accessToken
             }));
             const currentResult = unwrapResult(actionResult);
-            console.log(currentResult)
             if (currentResult.status === 200) {
                 setLoading(false);
-                setCheck(true);
-                setMess('Change information successfully !');
+                alert.success('Thay đổi thông tin thành công !');
             } else {
                 setLoading(false);
-                setCheck(false);
-                setMess('Password information failed !!!');
+                alert.error("Thay đổi thông tin thất bại!!!");
             }
         } catch (error) {
             setLoading(false);
-            setCheck(false);
-            setMess('Password information failed !!!');
-            console.log(error)
+            alert.error("Thay đổi thông tin thất bại!!!");
         }
     }
 
@@ -114,8 +108,6 @@ function PersonalInformation(props) {
                         </div>
                         <FormDatePicker HandleChange={HandleChangeDate} dob={info.dob} />
                     </div>
-                    {check === false && <p className="py-1 text-red-600">{mess}</p>}
-                    {check === true && <p className="py-1 text-green-400">{mess}</p>}
                     <div className="flex items-center mt-2">
                         <button type="submit" className="flex items-center justify-center mr-3 py-2 px-4 rounded-lg bg-blue-400 text-white cursor-pointer opacity-80 hover:opacity-100 duration-300"
                             onClick={HandleSubmit}

@@ -12,7 +12,7 @@ export const FetchListActive = createAsyncThunk('user/FetchListActive', async (p
 })
 
 const ActiveUser = createSlice({
-    name: 'FetchListChat',
+    name: 'ActiveUser',
     initialState:[],
     reducers: {
         saveList: (state, action) => {

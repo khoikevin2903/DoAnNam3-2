@@ -101,13 +101,28 @@ function Chat(props) {
                     </ScrollColor>
                 </div>
                 <div className="w-3/4 h-full bg-bgChat bg-cover bg-no-repeat h-full" style={{ borderRadius: "0px 10px 10px 0px" }}>
-                    <FormChat arr={(listMess !== null && check === true) ? listMess : []}
-                        idChat={conversation.id !== null ? conversation.id : 0}
-                        name={checkWhoMess.name !== null ? checkWhoMess.name : ""}
-                        senderId={User.current.id} recipientId={checkWhoMess.id !== null ? checkWhoMess.id : id} 
-                        checkOther={check}
-                        header={User.current.accessToken}
+                    {list.length === 0 ? <div className="flex items-center justify-center h-full">
+                        <div>
+                            <div className="flex items-center justify-center">
+                                <div className="h-20 w-20 bg-white text-blue-400 flex items-center justify-center text-4xl rounded-full">
+                                    <i className="far fa-comment-dots"></i>
+                                </div>
+                            </div>
+
+                            <div className="p-2 bg-white rounded-lg opacity-90 mt-3">
+                                <p>Bắt đầu cuộc trò chuyện !</p>
+                            </div>
+                        </div>
+                    </div> :
+                        <FormChat arr={(listMess !== null && check === true) ? listMess : []}
+                            idChat={conversation.id !== null ? conversation.id : 0}
+                            name={checkWhoMess.name !== null ? checkWhoMess.name : ""}
+                            senderId={User.current.id} recipientId={checkWhoMess.id !== null ? checkWhoMess.id : id}
+                            checkOther={check}
+                            header={User.current.accessToken}
                         />
+                    }
+
                 </div>
             </div>
             <div className="w-1/6 w3-animate-right fixed right-0" style={{ animationDuration: "0.7s" }}>

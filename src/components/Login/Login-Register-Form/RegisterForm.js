@@ -5,8 +5,11 @@ import * as Mess from "./../../../constants/Message";
 import { useHistory } from 'react-router';
 import { onLogin } from './../../../reducers/login-register';
 import { useDispatch } from 'react-redux';
+import { useAlert } from "react-alert";
 
 function RegisterForm(props) {
+
+    const alert = useAlert();
 
     const dispatch = useDispatch();
 
@@ -74,7 +77,7 @@ function RegisterForm(props) {
                         console.log(res)
                         setCheck(true);
                         setLoading(false);
-                        alert('Account registration is successful');
+                        alert.success('Tạo tài khoản thành công !');
                         dispatch(onLogin());
                         history.push('/login');
                         setAccount({
@@ -142,9 +145,6 @@ function RegisterForm(props) {
                             <div className="duration-300 loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-5 w-5 ml-3"></div>
                         )}
                     </button>
-                    {/* <div className="animate-fade-in-up-3 flex items-center justify-between mt-8">
-                        <input type="submit" onClick={HandleSubmit} value="Register" className="cursor-pointer py-3 px-10 rounded login-register-btn text-white font-medium hover:opacity-70 transition duration-700" />
-                    </div> */}
                     <div className="mt-10 flex items-center justify-center">
                         <div className="cursor-pointer animate-fade-in-up-icon-1 mx-1 border border-blue-800 p-3 rounded-full bg-blue-800 h-10 w-10 flex items-center justify-center text-white hover:bg-white hover:text-blue-800 transition duration-500">
                             <i className="fab fa-facebook-f"></i>

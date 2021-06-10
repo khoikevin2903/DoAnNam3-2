@@ -2,21 +2,24 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ROUTES from './routes';
 import firebase from 'firebase';
-import {setData} from './reducers/place';
+import { setData } from './reducers/place';
 import { useDispatch, useSelector } from 'react-redux';
-import {defaultDistrictsStart} from './reducers/districtsStart';
-import {defaultDistrictsEnd} from './reducers/districtsEnd';
-import {defaultPlace} from './reducers/infoPlace';
-import {defaultPlaceName} from './reducers/infoPlaceName';
-import {offModal} from './reducers/showModal';
-import {onLogin} from './reducers/login-register';
+import { onLogin } from './reducers/login-register';
 import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
 //import {changeOption} from './reducers/optionShow';
-import {fetchUser} from './reducers/FetchAllUser';
-import {defaultList} from './reducers/fetchListPost';
+import { fetchUser } from './reducers/FetchAllUser';
 //import {onLogout} from './reducers/checkLogin';
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+import axios from 'axios';
+
 
 function App(props) {
+
+	const options = {
+		timeout: 3000,
+		position: positions.BOTTOM_CENTER
+	};
 
 	const dispatch = useDispatch();
 
@@ -27,31 +30,41 @@ function App(props) {
 	}
 
 	const checkRoles = User.current.roles;
-	if(checkRoles){
+	if (checkRoles) {
 		checkRoles.map(item => {
-			if(item === "ROLE_ADMIN"){
+			if (item === "ROLE_ADMIN") {
 				ROUTES.push({
 					path: "/admin/contactsGrid",
 					exact: true,
 					main: ContactsGrid,
-				  });
-				  fetchData();
+				});
+				fetchData();
 			}
 		})
 	}
-	
+
+	const doSomeThing = () => {
+		axios.get(`https://chatchit69.herokuapp.com/api/active/disconnect/${User.username}`, {
+			headers: {
+				'Authorization': `Bearer ${User.current.accessToken}`
+			}
+		}).then(res => res);
+	}
+
+	const setupBeforeUnLoad = () => {
+		window.addEventListener('beforeunload',(e) => {
+			e.preventDefault();
+			return doSomeThing();
+		})
+	}
+
 	useEffect(() => {
+		setupBeforeUnLoad();
 		//dispatch(onLogout())
-		dispatch(defaultList());
 		FetchData();
-		dispatch(offModal());
-		dispatch(defaultDistrictsStart());
-		dispatch(defaultDistrictsEnd());
-		dispatch(defaultPlace());
-		dispatch(defaultPlaceName());
 		dispatch(onLogin());
 		//dispatch(changeOption(0));
-	},[])
+	}, [])
 
 	async function FetchData() {
 		const db = await new Promise((a, b) => {
@@ -63,15 +76,17 @@ function App(props) {
 
 	return (
 		<Router>
-			<div style={{ fontFamily: 'sans-serif' }}>
-				<div className="Noke">
-					<div className="w-full">
-						{
-							showContentMenus(ROUTES)
-						}
+			<Provider template={AlertTemplate} {...options}>
+				<div style={{ fontFamily: 'sans-serif' }}>
+					<div className="Noke">
+						<div className="w-full">
+							{
+								showContentMenus(ROUTES)
+							}
+						</div>
 					</div>
 				</div>
-			</div>
+			</Provider>
 		</Router>
 	)
 }
@@ -83,7 +98,7 @@ const showContentMenus = (routes) => {
 				key={index}
 				path={route.path}
 				exact={route.exact}
-				render={props => <route.main {...props}/>}
+				render={props => <route.main {...props} />}
 			/>)
 
 		})

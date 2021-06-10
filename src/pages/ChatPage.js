@@ -6,6 +6,8 @@ import { FetchConversation } from '../reducers/conversation';
 
 function ChatPage({ match }) {
 
+    console.log(match)
+
     const dispatch = useDispatch();
 
     const userID = useSelector(state => state.CheckLogin.current.id);

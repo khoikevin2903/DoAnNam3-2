@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../../reducers/changePassword';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { useAlert } from "react-alert";
 
 function ChangePassword(props) {
+
+    const alert = useAlert();
 
     const dispatch = useDispatch();
 
@@ -34,12 +37,12 @@ function ChangePassword(props) {
         if (changePass.oldPassword === '' || changePass.newPassword === '' || changePass.verifyPassword === '') {
             setLoading(false);
             setCheck(false);
-            setMess('current password is not valid !!!');
+            setMess('Mật khẩu hiện tại không đúng!!!');
         }
         else if (changePass.newPassword !== changePass.verifyPassword) {
             setLoading(false);
             setCheck(false);
-            setMess('verify password is not correct !!!');
+            setMess('Xác nhận mật khẩu không đúng !!!');
         } else {
             try {
                 const actionResult = await dispatch(changePassword({
@@ -51,8 +54,7 @@ function ChangePassword(props) {
                 const currentResult = unwrapResult(actionResult);
                 if (currentResult.status === 200) {
                     setLoading(false);
-                    setCheck(true);
-                    setMess('Change password successfully !');
+                    alert.success('Đổi mật khẩu thành công !');
                     setChangePass({
                         oldPassword: "",
                         newPassword: "",
@@ -60,8 +62,7 @@ function ChangePassword(props) {
                     });
                 } else {
                     setLoading(false);
-                    setCheck(false);
-                    setMess('Password change failed !!!');
+                    alert.error("Đổi mật khẩu thất bại");
                 }
             } catch (error) {
                 console.log(error)
@@ -94,7 +95,6 @@ function ChangePassword(props) {
                         <input type="password" value={changePass.verifyPassword} onChange={HandleChangePass} name="verifyPassword" className="w-full rounded-lg border border-gray-200 py-3 text-sm px-3 focus:outline-none focus:border-blue-400" />
                     </div>
                     {check === false && <p className="py-1 text-red-600">{mess}</p>}
-                    {check === true && <p className="py-1 text-green-400">{mess}</p>}
                     <div className="flex items-center mt-2">
                         <button type="submit" className="flex items-center justify-center mr-3 py-2 px-4 rounded-lg bg-blue-400 text-white cursor-pointer opacity-80 hover:opacity-100 duration-300"
                             onClick={HandleSubmit}

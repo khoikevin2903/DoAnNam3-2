@@ -41,17 +41,17 @@ function HeaderProfile(props) {
                     <h2>Khoi Kevin</h2>
                 </div>
                 <div>
-                    <ul className="flex items-center justify-center opacity-80 ml-14">
-                        <li className="px-3">
-                            <h6>Posts</h6>
+                    <ul className="flex items-center justify-center opacity-80">
+                        <li className="px-2">
+                            <h6>Bài Đăng</h6>
                             <p className="flex justify-center opacity-75">690</p>
                         </li>
-                        <li className="px-3">
-                            <h6>Followers</h6>
+                        <li className="px-2">
+                            <h6>Người theo dõi</h6>
                             <p className="flex justify-center opacity-75">206</p>
                         </li>
-                        <li className="pl-3">
-                            <h6>Following</h6>
+                        <li className="pl-2">
+                            <h6>Đang theo dõi</h6>
                             <p className="flex justify-center opacity-75">100</p>
                         </li>
                     </ul>

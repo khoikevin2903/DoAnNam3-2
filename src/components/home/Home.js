@@ -16,16 +16,18 @@ function Home(props) {
 
     const dispatch = useDispatch();
 
-    const User = useSelector(user => user.CheckLogin);
+    const token = useSelector(user => user.CheckLogin.current.accessToken);
+    
+    const id = useSelector(user => user.CheckLogin.current.id);
 
     useEffect( () => {
         async function fetchData() {
-           await dispatch(FetchList(User.current.accessToken));
-           await dispatch(FetchChat({id: User.current.id, header : User.current.accessToken}));
-           await dispatch(FetchChat2({id: User.current.id, header : User.current.accessToken}));
+           await dispatch(FetchList(token));
+           await dispatch(FetchChat({id: id, header : token}));
+           await dispatch(FetchChat2({id: id, header : token}));
         }
         fetchData();
-      }, []);
+      }, [token]);
 
     const checkModal = useSelector(state => state.ShowModal);
 
